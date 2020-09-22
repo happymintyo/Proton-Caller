@@ -7,10 +7,9 @@ scdp = 'STEAM_COMPAT_DATA_PATH'
 
 
 if sys.argv[1] == 'help':
-	print("usage: [help, ./.exe] [5, 5.0, 4.11] \n"
+	print("usage: [5, 5.0, 4.11] [help, ./.exe]\n"
 	      " example: \n"
-	      "'proton-call ./foo.exe 4.11' will run foo.exe with Proton version 4.11. \n"
-	      "If you do not specify a version, proton-call will ask. \n"
+	      "'proton-call 4.11 ./foo.exe' will run foo.exe with Proton version 4.11. \n"
 	      "You must also be in the same directory as the Windows executable. \n")
 	exit(0)
 
@@ -33,13 +32,19 @@ def proton_list():
 
 
 def proton_select():
-	prtn = input(f'Select version: ')
+	prtn = sys.argv[1]
 	if prtn == '5':
 		prtn = '5.0'
 		return prtn
 	elif prtn == '5.0':
 		return prtn
 	elif prtn == '4.11':
+		return prtn
+	elif prtn == '4.3':
+		return prtn
+	elif prtn == '3.16':
+		return prtn
+	elif prtn == '3.7':
 		return prtn
 	elif prtn == '':
 		print('Select proton version.')
@@ -50,7 +55,7 @@ def proton_select():
 
 
 def program_select():
-	program = sys.argv[1]
+	program = sys.argv[2]
 	print(program)
 	return program
 
