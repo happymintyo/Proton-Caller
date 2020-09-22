@@ -16,13 +16,6 @@ def help_message():
 	sys.exit(1)
 
 
-try:
-	print('try')
-except IndexError as e:
-	help_message()
-	sys.exit(1)
-
-
 if len(sys.argv[1]) > 4:
 	help_message()
 elif sys.argv[1] == 'help':
