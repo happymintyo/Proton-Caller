@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import sys
 import time
@@ -6,14 +7,29 @@ import time
 scdp = 'STEAM_COMPAT_DATA_PATH'
 
 
-if sys.argv[1] == 'help':
+def help_message():
 	print("usage: [5, 5.0, 4.11, 4.3, 3.16, 3.7] [help, ./.exe]\n"
 	      " example: \n"
 	      "'proton-call 4.11 ./foo.exe' will run foo.exe with Proton version 4.11. \n"
-	      "You must also be in the same directory as the Windows executable. \n")
-	exit(0)
+	      "You must also be in the same directory as the Windows executable. \n"
+	      "Python caller will error without any arguments. \n")
+	sys.exit(1)
 
-print("Warning: the script currently only supports Proton installed in the user's home directory")
+
+try:
+	print('try')
+except IndexError as e:
+	help_message()
+	sys.exit(1)
+
+
+if len(sys.argv[1]) > 4:
+	help_message()
+elif sys.argv[1] == 'help':
+	help_message()
+
+print("Warning: the script currently only supports Proton installed in the user's home directory \n"
+      "Script will error with no arguments\n ")
 time.sleep(1)
 
 
