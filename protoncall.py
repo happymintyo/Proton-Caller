@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 import os
 import sys
-import time
-from colorama import Fore, Style
 
 scdp = 'STEAM_COMPAT_DATA_PATH'
+custom = 'unknown'
+version = '0.4'
 
 
 # setup mode
 
 def help_message():
-	print("usage: [5, 5.0, 4.11, 4.3, 3.16, 3.7] [help, ./.exe]\n example: \n")
-	print("'proton-call 4.11 ./foo.exe' will run foo.exe with Proton version 4.11. \n")
-	print("You must also be in the same directory as the Windows executable.")
-	print(Fore.RED + "Proton caller will error without any arguments. \n" + Style.RESET_ALL)
+	print(f"Proton Caller by Avery Murray, version: {version}.\n"
+		f"Use this to easily run any Windows executable using Steam's Proton\n\n"
+		f"Usage:\n [-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n"
+		f"'proton-call 5 ./foo.exe'\n'proton-call -c '/Proton\ 5.0/' ./foo.exe'\n\n"
+		f"Working directory must be the same as the Windows executable. Proton Caller will fail without arguments.")
 	sys.exit(a)
 
 
@@ -39,6 +40,7 @@ def proton_select():
 #  launcher mode
 
 def setup():
+	print(f'Custom mode: {custom}')
 	if scdp in os.environ:
 		print(f'{scdp} exists at: {os.environ[scdp]} \n')
 	else:
@@ -54,7 +56,10 @@ def setup():
 
 
 def program_select():
-	program = sys.argv[2]
+	if custom == 'True':
+		program = sys.argv[3]
+	else:
+		program = sys.argv[2]
 	print(program)
 	return program
 
@@ -67,14 +72,24 @@ def proton_list():
 
 def proton_call():
 	setup()
-	print(Fore.RED + "Warning:" + Style.RESET_ALL + "script currently only supports Proton installed in the user's home directory \n")
-	time.sleep(1)
 	proton_list()
 	prtn = proton_select()
 	print(f'Using Proton {prtn}')
 	program = program_select()
 	os.system(f'~/.steam/steam/steamapps/common/Proton\ {prtn}/proton run {program}')
 
+
+# custom mode
+
+def custom_call():
+	setup()
+	proton_path = sys.argv[2]
+	program = program_select()
+	os.system(f'{proton_path}/proton run {program}')
+	sys.exit(0)
+
+
+# check mode
 
 if len(sys.argv[1]) > 4:
 	a = 1
@@ -85,6 +100,10 @@ elif sys.argv[1] == 'help':
 elif sys.argv[1] == '-h':
 	a = 0
 	help_message()
+elif sys.argv[1] == '-c':
+	custom = 'True'
+	custom_call()
+else:
+	custom = 'False'
+	proton_call()
 
-
-proton_call()
