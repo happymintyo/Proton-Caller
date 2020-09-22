@@ -2,7 +2,7 @@
 import os
 import sys
 import time
-
+from colorama import Fore, Style
 
 scdp = 'STEAM_COMPAT_DATA_PATH'
 
@@ -13,7 +13,7 @@ def help_message():
 	print("usage: [5, 5.0, 4.11, 4.3, 3.16, 3.7] [help, ./.exe]\n example: \n")
 	print("'proton-call 4.11 ./foo.exe' will run foo.exe with Proton version 4.11. \n")
 	print("You must also be in the same directory as the Windows executable.")
-	print("Proton caller will error without any arguments. \n")
+	print(Fore.RED + "Proton caller will error without any arguments. \n" + Style.RESET_ALL)
 	sys.exit(a)
 
 
@@ -40,7 +40,7 @@ def proton_select():
 
 def setup():
 	if scdp in os.environ:
-		print(f'{scdp} exists at: {os.environ[scdp]}')
+		print(f'{scdp} exists at: {os.environ[scdp]} \n')
 	else:
 		print(f'{scdp} was not found')
 		add_var = input('Would you like this added? [y/n]: ')
@@ -66,7 +66,8 @@ def proton_list():
 
 
 def proton_call():
-	print("Warning: the script currently only supports Proton installed in the user's home directory \n")
+	setup()
+	print(Fore.RED + "Warning:" + Style.RESET_ALL + "script currently only supports Proton installed in the user's home directory \n")
 	time.sleep(1)
 	proton_list()
 	prtn = proton_select()
