@@ -8,15 +8,14 @@ scdp = 'STEAM_COMPAT_DATA_PATH'
 
 
 if sys.argv[1] == 'help':
-	print("usage: [5, 5.0, 4.11] [help, ./.exe]\n"
+	print("usage: [5, 5.0, 4.11, 4.3, 3.16, 3.7] [help, ./.exe]\n"
 	      " example: \n"
 	      "'proton-call 4.11 ./foo.exe' will run foo.exe with Proton version 4.11. \n"
 	      "You must also be in the same directory as the Windows executable. \n")
 	exit(0)
 
-print("Warning: the script currently only supports Proton installed in the user's home directory \n")
-time.sleep(0.5)
-
+print("Warning: the script currently only supports Proton installed in the user's home directory")
+time.sleep(1)
 
 
 if scdp in os.environ:
@@ -47,11 +46,8 @@ def proton_select():
 		return prtn
 	elif prtn == '3.7':
 		return prtn
-	elif prtn == '':
-		print('Select proton version.')
-		sys.exit(1)
 	else:
-		print(f"Sorry, '{prtn}' isn't supported")
+		print('\n Select proton version.')
 		sys.exit(1)
 
 
