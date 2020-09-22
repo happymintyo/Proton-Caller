@@ -12,7 +12,7 @@ def help_message():
 	      " example: \n"
 	      "'proton-call 4.11 ./foo.exe' will run foo.exe with Proton version 4.11. \n"
 	      "You must also be in the same directory as the Windows executable. \n"
-	      "Python caller will error without any arguments. \n")
+	      "Proton caller will error without any arguments. \n")
 	sys.exit(1)
 
 
@@ -28,8 +28,7 @@ if len(sys.argv[1]) > 4:
 elif sys.argv[1] == 'help':
 	help_message()
 
-print("Warning: the script currently only supports Proton installed in the user's home directory \n"
-      "Script will error with no arguments\n ")
+print("Warning: the script currently only supports Proton installed in the user's home directory \n")
 time.sleep(1)
 
 
