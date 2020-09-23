@@ -4,6 +4,12 @@ A script to automatically run programs using Steam's Proton
 
 Please create an issue if you want added features or have an issue.
 
+## Usage:
+
+-c \- custom mode<br>
+-h \- help information<br>
+help \- same as -h
+
 ## Install:
 
    To install Proton Caller to path, run install.sh.<br>

@@ -1,0 +1,20 @@
+.TH PROTON_CALL 6
+.SH NAME
+proton-call \- A proton game launcher
+.SH SYNOPSIS
+.B proton-call
+[\fB\5 \4.11 \4.3 \3.16 \3.7 \fR \fIfoo.exe\fR]
+[\fB\-c\fR \fI/Proton 5.0\fR]
+.SH DESCRIPTION
+.B proton-call
+will launch any Windows program using Proton as long as you have proton installed and it supports the program.
+.SH OPTIONS
+.TP
+[-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]
+
+proton-call 5 foo.exe
+
+proton-call -c '/Proton\\\\\ 5.0/' foo.exe
+
+Working directory must be the same as the Windows executable.
+Proton Caller will fail without arguments.
