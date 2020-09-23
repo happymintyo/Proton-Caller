@@ -2,19 +2,16 @@
 import os
 import sys
 
-n = 'null'
 scdp = 'STEAM_COMPAT_DATA_PATH'
 custom = False
 version = '0.5.1a'
-_argv1 = sys.argv[1]
 
 # Set defaults
 err_val = 255
-proton = n
-program = n
 _help = True
 _home = os.environ['HOME']
 proton_path = f"{_home}/.steam/steam/steamapps/common/Proton\\ "
+yesno = False
 
 
 # setup mode
@@ -30,7 +27,7 @@ def help_message():
 
 
 def proton_addition():
-    add_dir = input('Directory you will like {scdp} added.'
+    add_dir = input(f'Directory you will like {scdp} added.'
                     'this will add a directory.\nadd_dir: ')
     os.system(f'mkdir {add_dir}/proton')
     _profile = input('Shell profile file: ')
@@ -43,9 +40,13 @@ def locate():
     if _vars.custom:
         if os.path.isdir(f"'{_vars.proton_path}'"):
             return
-        if not os.path.isdir(f"'_vars.proton_path'"):
+        if not os.path.isdir(f"'{_vars.proton_path}'"):
             print(f'Error: {_vars.proton_path} not found.')
             sys.exit(_vars.err_val)
+
+
+def download():
+    return
 
 
 def setup():
@@ -69,9 +70,11 @@ def setup():
 # launcher mode
 
 def proton_call():
-    if _help:
+    if _vars.help:
         help_message()
     setup()
+    if _vars.yesno:
+        download()
     if custom:
         #  print(f'Using Proton {_vars.proton}')
         #  print(f'Program: {_vars.program}')
@@ -84,8 +87,8 @@ def proton_call():
 
 
 class ProtonCaller:
-    def __init__(self, _argv1, custom, err_val, version, scdp, proton, program, proton_path, _help):
-        self._argv1 = _argv1
+    def __init__(self, custom, err_val, version, scdp, proton, program, proton_path, _help, yesno):
+        self._argv1 = sys.argv[1]
         self.custom = custom
         self.err_val = err_val
         self.version = version
@@ -94,10 +97,15 @@ class ProtonCaller:
         self.program = program
         self.proton_path = proton_path
         self._help = _help
+        self.yesno = yesno
+
+    @property
+    def help(self):
+        return self._help
 
 
 def define():
-    _vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
+    _vars = pc(custom, err_val, version, scdp, proton, program, proton_path, _help, False)
     return _vars
 
 
@@ -128,14 +136,9 @@ elif sys.argv[1] == '-c':
     sys.exit(0)
 else:
     _help = False
+    proton = sys.argv[1]
     if sys.argv[1] == '5':
         proton = '5.0'
-        program = sys.argv[2]
-        _vars = define()
-        proton_call()
-        sys.exit(0)
-
-    proton = sys.argv[1]
     program = sys.argv[2]
     _vars = define()
     proton_call()
