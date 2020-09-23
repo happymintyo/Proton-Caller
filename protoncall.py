@@ -70,7 +70,7 @@ def setup():
 # launcher mode
 
 def proton_call():
-    if _vars.help:
+    if _vars._help:
         help_message()
     setup()
     if _vars.yesno:
@@ -98,10 +98,6 @@ class ProtonCaller:
         self.proton_path = proton_path
         self._help = _help
         self.yesno = yesno
-
-    @property
-    def help(self):
-        return self._help
 
 
 def define():
