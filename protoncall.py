@@ -20,7 +20,8 @@ proton_path = f"{_home}/.steam/steam/steamapps/common/Proton\\ "
 
 def help_message():
 	print(f"Proton Caller by Avery Murray, version: {version}.\n"
-	f"Use this to easily run any Windows executable using Steam's Proton\n\n"
+	f"Use this to easily run any Windows executable using Steam's Proton\n"
+	f"https://github.com/caverym/Proton-Caller\n\n"
 	f"Usage:\n [-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n"
 	f"'proton-call 5 ./foo.exe'\n'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n\n"
 	f"Working directory must be the same as the Windows executable. Proton Caller will fail without arguments.")
