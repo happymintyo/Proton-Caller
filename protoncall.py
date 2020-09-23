@@ -4,13 +4,13 @@ import sys
 
 n = 'null'
 scdp = 'STEAM_COMPAT_DATA_PATH'
-custom = n
+custom = False
 version = '0.5a'
 _argv1 = sys.argv[1]
 
 # Set defaults
 err_val = 255
-proton = 5.0
+proton = n
 program = n
 proton_path = "~/.steam/steam/steamapps/common/Proton\\ 5.0/"
 _help = True
@@ -53,17 +53,17 @@ def setup():
 
 
 def proton_call():
-	print(f'\n {_vars}\n')
+	print(f'\n {_vars}\n Made it to proton_call !')
 	if _help:
 		help_message()
 	setup()
 	if custom:
 		print(f'Using Proton {_vars.proton}')
 		print(f'Program: {_vars.program}')
-		os.system(f'{_vars.proton_path}/proton run {_vars.program}')
-		return
+		os.system(f"{_vars.proton_path}/proton run {_vars.program}")
 	elif not custom:
-		os.system(f'~/.steam/steam/steamapps/common/Proton\\ {_vars.proton}/proton run {_vars.program}')
+		print("made it to 'not custom'")
+		os.system(f'~/.steam/steam/steamapps/common/Proton\\ {_vars.proton}/proton run {program}')
 	else:
 		print(f'How did we get here?')
 		sys.exit(_vars.err_val)
@@ -100,16 +100,19 @@ elif sys.argv[1] == '-c':
 	custom = True
 	proton_path = sys.argv[2]
 	program = sys.argv[3]
-	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
+	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, sys.argv[3], sys.argv[2], _help)
 	proton_call()
 else:
 	_help = False
+	print('Passed first checks')
 	if sys.argv[1] == '5':
+		print(sys.argv[1])
 		program = sys.argv[2]
-		_vars = pc(sys.argv[1], custom, err_val, version, scdp, '5.0', program, proton_path, _help)
+		_vars = pc(sys.argv[1], custom, err_val, version, scdp, '5.0', sys.argv[2], proton_path, _help)
 		proton_call()
 	else:
+		print(sys.argv[1])
 		proton = sys.argv[1]
 		program = sys.argv[2]
-		_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
+		_vars = pc(sys.argv[1], custom, err_val, version, scdp, sys.argv[1], sys.argv[2], proton_path, _help)
 		proton_call()
