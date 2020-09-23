@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 import os
+# import os.path
 import sys
 
 n = 'null'
 scdp = 'STEAM_COMPAT_DATA_PATH'
 custom = False
-version = '0.5a'
+version = '0.5.1a'
 _argv1 = sys.argv[1]
 
 # Set defaults
 err_val = 255
 proton = n
 program = n
-proton_path = "~/.steam/steam/steamapps/common/Proton\\ 5.0/"
 _help = True
+_home = os.environ['HOME']
+proton_path = f"{_home}/.steam/steam/steamapps/common/Proton\\ "
 
 
 def help_message():
@@ -35,10 +37,20 @@ def proton_addition():
 	return _vars.scdp
 
 
+def locate():
+	if _vars.custom:
+		if os.path.isdir(f"'{_vars.proton_path}'"):
+			return
+		if not os.path.isdir(f"'_vars.proton_path'"):
+			print(f'Error: {_vars.proton_path} not found.')
+			sys.exit(_vars.err_val)
+
+
 def setup():
-	print(f'Custom mode: {custom}')
+	#  locate()
+	print(f'Custom mode: {_vars.custom}')
 	if scdp in os.environ:
-		print(f'{scdp} exists at {os.environ[scdp]}\b')
+		print(f'{scdp} exists at {os.environ[_vars.scdp]}\b')
 		return
 	else:
 		print(f'{scdp} was not found')
@@ -47,25 +59,23 @@ def setup():
 			_vars.scdp = proton_addition()
 			return _vars.scdp
 		elif add_var == 'n':
-			sys.exit(f"Won't add {scdp}. Add it to your environment.")
+			sys.exit(f"Won't add {_vars.scdp}. Add it to your environment.")
 		else:
 			sys.exit(_vars.err_val)
 
 
 def proton_call():
-	print(f'\n {_vars}\n Made it to proton_call !')
 	if _help:
 		help_message()
 	setup()
 	if custom:
-		print(f'Using Proton {_vars.proton}')
-		print(f'Program: {_vars.program}')
+		#  print(f'Using Proton {_vars.proton}')
+		#  print(f'Program: {_vars.program}')
 		os.system(f"{_vars.proton_path}/proton run {_vars.program}")
 	elif not custom:
-		print("made it to 'not custom'")
 		os.system(f'~/.steam/steam/steamapps/common/Proton\\ {_vars.proton}/proton run {program}')
 	else:
-		print(f'How did we get here?')
+		print(f"How did we get here, {os.environ['USER']}?")
 		sys.exit(_vars.err_val)
 
 
@@ -82,37 +92,39 @@ class ProtonCaller:
 		self._help = _help
 
 
+def define():
+	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
+	return _vars
+
+
 pc = ProtonCaller
 if len(sys.argv[1]) > 4:
-	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
-	print(_vars)
+	_vars = define()
 	proton_call()
 elif sys.argv[1] == 'help':
 	err_val = 0
-	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
+	_vars = define()
 	proton_call()
 elif sys.argv[1] == '-h':
 	err_val = 0
-	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, program, proton_path, _help)
+	_vars = define()
 	proton_call()
 elif sys.argv[1] == '-c':
 	_help = False
 	custom = True
 	proton_path = sys.argv[2]
 	program = sys.argv[3]
-	_vars = pc(sys.argv[1], custom, err_val, version, scdp, proton, sys.argv[3], sys.argv[2], _help)
+	_vars = define()
 	proton_call()
 else:
 	_help = False
-	print('Passed first checks')
 	if sys.argv[1] == '5':
-		print(sys.argv[1])
+		proton = '5.0'
 		program = sys.argv[2]
-		_vars = pc(sys.argv[1], custom, err_val, version, scdp, '5.0', sys.argv[2], proton_path, _help)
+		_vars = define()
 		proton_call()
 	else:
-		print(sys.argv[1])
 		proton = sys.argv[1]
 		program = sys.argv[2]
-		_vars = pc(sys.argv[1], custom, err_val, version, scdp, sys.argv[1], sys.argv[2], proton_path, _help)
+		_vars = define()
 		proton_call()
