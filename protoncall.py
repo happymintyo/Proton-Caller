@@ -47,7 +47,7 @@ def setup():
 			_vars.scdp = proton_addition()
 			return _vars.scdp
 		elif add_var == 'n':
-			sys.exit(f"Won't add {scdp}. Add it to your environment")
+			sys.exit(f"Won't add {scdp}. Add it to your environment.")
 		else:
 			sys.exit(_vars.err_val)
 
