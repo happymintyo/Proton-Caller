@@ -104,12 +104,10 @@ if len(sys.argv[1]) > 4:
     sys.exit(0)
 elif sys.argv[1] == 'help':
     err_val = 0
-    _vars = define()
     help_message()
     sys.exit(0)
 elif sys.argv[1] == '-h':
     err_val = 0
-    _vars = define()
     help_message()
     sys.exit(0)
 elif sys.argv[1] == '-c':
