@@ -12,9 +12,16 @@ help \- same as -h
 
 ## Install:
 
-   To install Proton Caller to path, run install.sh.<br>
-   `sudo sh ./install.sh`<br>
-   This will install `proton-call` as a command on your system.<br>
+To install `proton-call`
+```
+/bin/bash -c "$(curl -fsSL caverym.github.io/proton-call_stable.sh)"
+ ``` 
+
+or unstable:
+
+```
+/bin/bash -c "$(curl -fsSL caverym.github.io/proton-call_unstable.sh)"
+```
 
 ### Space Engine example:
    To make a .desktop launcher create a shell script such as `/usr/bin/SpaceEngine`:
