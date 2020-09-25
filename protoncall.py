@@ -56,15 +56,15 @@ def setup():
         print(f'{scdp} exists at {os.environ[_vars.scdp]}\b')
         return
     else:
-        print(f'{scdp} was not found')
-        add_var = input(f'Would you like to add {scdp}? [y/n]: ')
-        if add_var == 'y':
-            _vars.scdp = proton_addition()
-            return _vars.scdp
-        elif add_var == 'n':
-            sys.exit(f"Won't add {_vars.scdp}. Add it to your environment.")
-        else:
-            sys.exit(_vars.err_val)
+        #print(f'{scdp} was not found')
+        #add_var = input(f'Would you like to add {scdp}? [y/n]: ')
+        #if add_var == 'y':
+        #    _vars.scdp = proton_addition()
+        #    return _vars.scdp
+        #elif add_var == 'n':
+        #    sys.exit(f"Won't add {_vars.scdp}. Add it to your environment.")
+        #else:
+        sys.exit(_vars.err_val)
 
 
 # launcher mode
