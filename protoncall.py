@@ -100,18 +100,17 @@ def define():
 
 pc = ProtonCaller
 if len(sys.argv[1]) > 4:
-    _vars = define()
-    proton_call()
+    help_message()
     sys.exit(0)
 elif sys.argv[1] == 'help':
     err_val = 0
     _vars = define()
-    proton_call()
+    help_message()
     sys.exit(0)
 elif sys.argv[1] == '-h':
     err_val = 0
     _vars = define()
-    proton_call()
+    help_message()
     sys.exit(0)
 elif sys.argv[1] == '-c':
     _help = False
