@@ -2,11 +2,13 @@
 import os
 # import os.path
 import sys
+import _pyinstaller_hooks_contrib
+
 
 n = 'null'
 scdp = 'STEAM_COMPAT_DATA_PATH'
 custom = False
-version = '0.5.1a'
+version = '0.5.2'
 
 # Set defaults
 err_val = 255
