@@ -9,6 +9,13 @@ Please create an issue if you want added features or have an issue.
 -c \- custom mode<br>
 -h \- help information<br>
 help \- same as -h
+```
+proton-call 5 SpaceEngine.exe
+```
+
+```
+proton-call -c '/home/avery/.steam/steam/steamapps/common/Proton\\ 5.0/' SpaceEngine.exe
+```
 
 ## Install:
 
