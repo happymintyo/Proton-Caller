@@ -6,7 +6,7 @@ import sys
 n = 'null'
 steam = 'STEAM_COMPAT_DATA_PATH'
 custom = False
-version = '0.5.3'
+version = '0.5.4'
 
 # Set defaults
 proton = sys.argv[1]

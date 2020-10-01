@@ -7,7 +7,8 @@ fi
 
 mkdir -p /usr/share/licenses/proton-call
 cp -f LICENSE /usr/share/licenses/proton-call/
-cp -f protoncall.py /usr/bin/proton-call
-chmod +x /usr/bin/proton-call
+pyinstaller protoncall.py
+cp build/protoncall/protoncall /usr/share/proton-call
+sudo chmod +x /usr/share/proton-call
 install -g 0 -o 0 -m 0644 proton-call.6 /usr/share/man/man6/
 gzip -f /usr/share/man/man6/proton-call.6
