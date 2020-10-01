@@ -34,7 +34,7 @@ def setup():
         return
     else:
         print(f'{steam} was not found')
-        sys.exit(err_val)
+        sys.exit(1)
 
 
 def proton_call():
@@ -50,6 +50,7 @@ def proton_call():
 
 # check mode
 if len(sys.argv[1]) > 4:
+    err_val = 255
     proton_call()
     sys.exit(0)
 elif sys.argv[1] == 'help':
