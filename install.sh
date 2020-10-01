@@ -5,6 +5,8 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+mkdir /usr/share/licenses/proton-call
+cp LICENSE /usr/share/licenses/proton-call/
 pyinstaller --onefile protoncall.py
 cp dist/protoncall /usr/bin/proton-call
 chmod +x /usr/bin/proton-call
