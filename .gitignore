@@ -4,3 +4,6 @@ dist
 build
 protoncall.spec
 __pycache__
+.vscode
+boost
+libs
