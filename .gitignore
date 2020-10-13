@@ -9,3 +9,4 @@ boost
 libs
 CMakeLists.txt
 venv
+cmake-build-debug

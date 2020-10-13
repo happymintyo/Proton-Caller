@@ -7,7 +7,7 @@ using namespace std;
 // int system(const char* command);
 
 
-/*  This program currently DOES NOT work. please use the normal python script until this is outside of the src folder.
+/*  This program currently DOES NOT work. please use the normal python script.
     I am rewriting it in C++ to help with speed, get more features, have less overhead and resources. */
 
 
