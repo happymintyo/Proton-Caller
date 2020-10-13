@@ -7,3 +7,5 @@ __pycache__
 .vscode
 boost
 libs
+CMakeLists.txt
+venv
