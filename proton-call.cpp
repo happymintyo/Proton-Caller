@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <stdlib.h>
+// #include <stdlib.h>
 #include <cstring>
 using namespace std;
 
@@ -24,24 +24,11 @@ class env {
 
         int execl(const char *path, const char *args);
 
-        /* int proton_call() {
-            EIUFWHRUFHLDUFHURWLEHFKRHFLKRJHFR
-            GWRRLGKHWRUHJRWLSGRK;GSJR
-            GJSR'LGJSRLKGSRD
-            G;LSR
-            GL'SRDG;LS'
-            RD;GLS;F'GL'S;FGL
-            SFG
-            S
-            GS
-            FGS
-            'FG
-            'SFDG'
-            S
-
+        int proton_call() {
+            cout << "this is not working !\n";
 
             return 0;
-        } */
+        }
 };
 
 
@@ -52,8 +39,7 @@ void help() {
 
 
 int main(int argc, char *argv[]) {
-    int exit_val;
-    
+
     env pc;
     pc.version = "1.0.0a";
     pc.steam = "STEAM_COMPAT_DATA_PATH";
@@ -89,5 +75,6 @@ int main(int argc, char *argv[]) {
         
     }
 
+    cout << argc << argv[1] << argv[2] << endl;
     return 0;
 }
