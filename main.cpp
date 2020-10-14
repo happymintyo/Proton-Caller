@@ -16,7 +16,7 @@ class ProtonClass {
         bool custom{};
 
 
-        void proton_call() {
+        void proton_call() const {
             string exec_ = proton_path + proton + "/proton run " + program;
             char cmd[200];
             strcpy(cmd, exec_.c_str());
