@@ -33,13 +33,11 @@ void help() {
 void checker(ProtonClass &pc) {
     string _home = getenv("HOME");
 
-    if (pc._argv1 == "-c") {
-        pc.custom = true;
+    if (pc.custom) {
         pc.program = pc._argv3;
         pc.proton_path = pc._argv2;
         return;
     } else {
-        pc.custom = false;
         pc.proton = pc._argv1;
         pc.program = pc._argv2;
         if (pc._argv1 == "5"){pc.proton = "5.0";}
@@ -65,7 +63,14 @@ int main(int argc, char *argv[]) {
     if (argc == 1){help();exit(EXIT_FAILURE);}
     if (argv[1] != nullptr){pc._argv1 = argv[1];}else{exit(EXIT_FAILURE);}
     if (argv[2] != nullptr){pc._argv2 = argv[2];}else{exit(EXIT_FAILURE);}
-    if (argv[3] != nullptr){pc._argv3 = argv[3];}else{exit(EXIT_FAILURE);}
+
+    if (pc._argv1 == "-c") {
+        pc.custom = true;
+        if (argv[3] != nullptr){
+            pc._argv3 = argv[3];
+        } else{exit(EXIT_FAILURE);}
+    } else{pc.custom = false;}
+
 
     checker(pc);
     pc.proton_call();
