@@ -23,13 +23,15 @@ proton-call -c '/home/avery/.steam/steam/steamapps/common/Proton\\ 5.0/' SpaceEn
 
 To install `proton-call`
 ```
-/bin/bash -c "$(curl -fsSL caverym.github.io/proton-call_stable.sh)"
+yay -S proton-caller
  ``` 
 
-or unstable:
+or:
 
 ```
-/bin/bash -c "$(curl -fsSL caverym.github.io/proton-call_unstable.sh)"
+git clone https://aur.archlinux.org/proton-caller.git
+cd proton-caller
+makepkg -si
 ```
 
 ### Space Engine example:
