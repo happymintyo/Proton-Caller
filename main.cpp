@@ -1,20 +1,12 @@
 /*
-DO NOT USE THIS IT IS NOT FINISHED
+DO NOT USE THIS, IT IS NOT FINISHED
 
 */
 
-
-
 #include <iostream>
 #include <string>
-#include <sys/stat.h>
-#ifdef __cplusplus
-# include <lua5.2/lua.hpp>
-#else
-# include <lua5.2/lua.h>
-# include <lua5.2/lualib.h>
-# include <lua5.2/lauxlib.h>
-#endif
+#include <cstring>
+
 using namespace std;
 
 
@@ -23,19 +15,22 @@ class ProtonClass {
         string _argv1;
         string _argv2;
         string _argv3;
-        const char *steam;
+        const char *steam{};
         string proton;
         string program;
         string proton_path;
-        bool custom;
+        bool custom{};
 
-        void proton_call() {
-            // cout << proton_path;
-            const char *cmd;
-            cmd = "env";
-            system(cmd);
-        }
 };
+
+void proton_call(ProtonClass pc) {
+    string exec_ = "~/.steam/steam/steamapps/common/Proton\\ " + pc.proton + "/proton run " + pc.program;
+    char cmd[200];
+    strcpy(cmd, exec_.c_str());
+    cout << endl << cmd << endl;
+    system(cmd);
+}
+
 
 void help() {
     cout << "Usage: [-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
@@ -73,7 +68,7 @@ int main(int argc, char * argv[]) {
 
     cout << "Proton Caller by Avery Murray version: " << version << "\n\n";
 
-    if (getenv(pc.steam) == NULL) {
+    if (getenv(pc.steam) == nullptr) {
         const char *cmd1 = "mkdir $HOME/proton";
         const char *cmd2 = "export STEAM_COMPAT_DATA_PATH=$HOME/proton";
         system(cmd1);
@@ -82,19 +77,22 @@ int main(int argc, char * argv[]) {
 
     cout << pc.steam << " located at: " << getenv(pc.steam) << endl;
 
-    if (argv[1] != NULL) {
+    if (argc == 1) {
+        cout << "Missing arguments\n";
+    }
+    if (argv[1] != nullptr) {
         pc._argv1 = argv[1];
     } else {
         cout << "Missing arguments.\n";
         return 255;
     }
-    if (argv[2] != NULL) {
+    if (argv[2] != nullptr) {
         pc._argv2 = argv[2];
     } else {
         cout << "missing arguments\n";
         return 255;
     }
-    if (argv[3] != NULL) {
+    if (argv[3] != nullptr) {
         pc._argv3 = argv[3];
     }
 
@@ -105,7 +103,7 @@ int main(int argc, char * argv[]) {
         pc.program = argv[3];
     }
 
-    pc.proton_call();
+    proton_call(pc);
 
     return 0;
 
