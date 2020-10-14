@@ -23,7 +23,7 @@ class ProtonClass {
 
 };
 
-void proton_call(ProtonClass pc) {
+void proton_call(const ProtonClass& pc) {
     string exec_ = pc.proton_path + pc.proton + "/proton run " + pc.program;
     char cmd[200];
     strcpy(cmd, exec_.c_str());
@@ -37,11 +37,12 @@ void help() {
 }
 
 void checker(ProtonClass &pc) {
+    string _home = getenv("HOME");
     /* if (pc._argv1 == "-h") {
         help();
         exit (EXIT_SUCCESS);
     } */
-    if (pc._argv1 == "-c") {
+    /* if (pc._argv1 == "-c") {
         pc.custom = true;
         pc.program = pc._argv3;
         pc.proton_path = pc._argv2;
@@ -60,6 +61,19 @@ void checker(ProtonClass &pc) {
         }
 
         // pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
+        return; */
+
+    if (pc._argv1 == "-c") {
+        pc.custom = true;
+        pc.program = pc._argv3;
+        pc.proton_path = pc._argv2;
+        return;
+    } else {
+        pc.custom = false;
+        pc.proton = pc._argv1;
+        pc.program = pc._argv2;
+        if (pc._argv1 == "5"){pc.proton = "5.0";}
+        pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
         return;
     }
 
@@ -68,16 +82,15 @@ void checker(ProtonClass &pc) {
 
 int main(int argc, char * argv[]) {
     ProtonClass pc;
-    string version = "1.0.0a";
     pc.steam = "STEAM_COMPAT_DATA_PATH";
+    string version = "1.0.1";
 
     cout << "Proton Caller by Avery Murray version: " << version << "\n\n";
 
     if (getenv(pc.steam) == nullptr) {
-        const char *cmd1 = "mkdir $HOME/proton";
-        const char *cmd2 = "export STEAM_COMPAT_DATA_PATH=$HOME/proton";
-        system(cmd1);
-        system(cmd2);
+        cout << "Please add " << pc.steam << " to your environment:\n\nexport " << pc.steam << "=$HOME/proton/\n";
+        help();
+        exit (EXIT_FAILURE);
     }
 
     cout << pc.steam << " located at: " << getenv(pc.steam) << endl;
