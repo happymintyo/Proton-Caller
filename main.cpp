@@ -24,7 +24,7 @@ class ProtonClass {
 };
 
 void proton_call(ProtonClass pc) {
-    string exec_ = "~/.steam/steam/steamapps/common/Proton\\ " + pc.proton + "/proton run " + pc.program;
+    string exec_ = pc.proton_path + pc.proton + "/proton run " + pc.program;
     char cmd[200];
     strcpy(cmd, exec_.c_str());
     cout << endl << cmd << endl;
@@ -37,10 +37,10 @@ void help() {
 }
 
 void checker(ProtonClass &pc) {
-    if (pc._argv1 == "-h") {
+    /* if (pc._argv1 == "-h") {
         help();
-        exit (0);
-    }
+        exit (EXIT_SUCCESS);
+    } */
     if (pc._argv1 == "-c") {
         pc.custom = true;
         pc.program = pc._argv3;
@@ -54,7 +54,12 @@ void checker(ProtonClass &pc) {
             pc.proton = pc._argv1;
             pc.program = pc._argv2;
         }
-        pc.proton_path = "$HOME/.steam/steam/steamapps/common/Proton " + pc.proton + "/proton run ";
+        if (!pc.custom) {
+            string _home = getenv("HOME");
+            pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
+        }
+
+        // pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
         return;
     }
 
@@ -82,6 +87,10 @@ int main(int argc, char * argv[]) {
     }
     if (argv[1] != nullptr) {
         pc._argv1 = argv[1];
+        if (pc._argv1 == "-h") {
+            help();
+            exit (EXIT_SUCCESS);
+        }
     } else {
         cout << "Missing arguments.\n";
         return 255;
