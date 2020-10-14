@@ -14,7 +14,7 @@ class ProtonClass {
         string program;
         string proton_path;
         bool custom{};
-        
+
 
         void proton_call() {
             string exec_ = proton_path + proton + "/proton run " + program;
@@ -63,9 +63,9 @@ int main(int argc, char *argv[]) {
 
     cout << pc.steam << " located at: " << getenv(pc.steam) << "\n\n";
     if (argc == 1){help();exit(EXIT_FAILURE);}
-    if (argv[1] != nullptr){pc._argv1 = argv[1];}
-    if (argv[2] != nullptr){pc._argv2 = argv[2];}
-    if (argv[3] != nullptr){pc._argv3 = argv[3];}
+    if (argv[1] != nullptr){pc._argv1 = argv[1];}else{exit(EXIT_FAILURE);}
+    if (argv[2] != nullptr){pc._argv2 = argv[2];}else{exit(EXIT_FAILURE);}
+    if (argv[3] != nullptr){pc._argv3 = argv[3];}else{exit(EXIT_FAILURE);}
 
     checker(pc);
     pc.proton_call();
