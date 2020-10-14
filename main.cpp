@@ -48,7 +48,7 @@ void checker(ProtonClass &pc) {
 int main(int argc, char *argv[]) {
     ProtonClass pc;
     pc.steam = "STEAM_COMPAT_DATA_PATH";
-    string version = "1.1.0";
+    string version = "1.0.3";
     cout << "Proton Caller by Avery Murray version: " << version << "\n\n";
 
     // check for compat data path
