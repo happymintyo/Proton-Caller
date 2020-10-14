@@ -38,30 +38,6 @@ void help() {
 
 void checker(ProtonClass &pc) {
     string _home = getenv("HOME");
-    /* if (pc._argv1 == "-h") {
-        help();
-        exit (EXIT_SUCCESS);
-    } */
-    /* if (pc._argv1 == "-c") {
-        pc.custom = true;
-        pc.program = pc._argv3;
-        pc.proton_path = pc._argv2;
-        return;
-    } else {
-        pc.custom = false;
-        if (pc._argv1 == "5") {
-            pc.proton = "5.0";
-        } else {
-            pc.proton = pc._argv1;
-            pc.program = pc._argv2;
-        }
-        if (!pc.custom) {
-            string _home = getenv("HOME");
-            pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
-        }
-
-        // pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
-        return; */
 
     if (pc._argv1 == "-c") {
         pc.custom = true;
