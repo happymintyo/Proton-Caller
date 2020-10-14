@@ -1,5 +1,5 @@
 # Maintainer: Avery <averylapine@gmail.com>
-pkgname=proton-call
+pkgname=Proton-Caller
 pkgver=1.0.0a
 pkgrel=1
 pkgdesc="Run any window program through proton"
@@ -11,7 +11,7 @@ depends=(
   'dxvk'
 )
 source=("https://github.com/caverym/Proton-Caller/archive/${pkgver}.tar.gz")
-sha256sums=('663838390e3123a4a237cc8a0260426641bf32c7239c7e3e7475746056e4d1b5')
+sha256sums=('517f5b4c1c3ffc769da9cb507744626e02efe8c85e04683f6d79a2decd3d550b')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
