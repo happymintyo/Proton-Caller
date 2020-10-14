@@ -2,7 +2,7 @@ build:
 	g++ -o proton-call main.cpp
 
 install:
-	cp ./proton-call usr/bin/proton-call
+	cp ./proton-call usr/bin/
 	mkdir -p usr/share/licenses/proton-call/
 	cp ./LICENSE usr/share/licenses/proton-call/
 	install -g 0 -o 0 -m 0644 ./proton-call.6 usr/share/man/man6/
