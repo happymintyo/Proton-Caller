@@ -3,7 +3,6 @@
 #include <cstring>
 using namespace std;
 
-
 class ProtonClass {
     public:
         string _argv1;
@@ -14,7 +13,6 @@ class ProtonClass {
         string program;
         string proton_path;
         bool custom{};
-
 
         void proton_call() const {
             string exec_ = proton_path + proton + "/proton run " + program;
