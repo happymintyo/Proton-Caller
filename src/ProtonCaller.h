@@ -53,4 +53,6 @@ public:
     }
 };
 
+void Args(ProtonClass &ProtonObject, int argc, char *argv[]);
+
 #endif //PROTON_CALLER_PROTONCALLER_H

@@ -1,0 +1,90 @@
+        -:    0:Source:/home/avery/Documents/git/Proton-Caller/src/ProtonCaller.h
+        -:    0:Graph:/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/Proton_Caller.dir/main.cpp.gcno
+        -:    0:Data:/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/Proton_Caller.dir/main.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by avery on 15/10/2020.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef PROTON_CALLER_PROTONCALLER_H
+        -:    6:#define PROTON_CALLER_PROTONCALLER_H
+        -:    7:#include <iostream>
+        -:    8:#include <string>
+        -:    9:#include <cstring>
+        -:   10:#include <filesystem>
+        -:   11:
+        -:   12:class ProtonClass {
+        -:   13:public:
+        -:   14:    std::string _argv1;
+        -:   15:    std::string _argv2;
+        -:   16:    std::string _argv3;
+        -:   17:    const char *steam{};
+        -:   18:    std::string proton;
+        -:   19:    std::string program;
+        -:   20:    std::string proton_path;
+        -:   21:    bool custom{};
+        -:   22:    std::string UserHome = getenv("HOME");
+        -:   23:
+        1:   24:    void check() const {
+       1*:   25:        if (custom){return;}
+        1:   25-block  0
+    %%%%%:   25-block  1
+        -:   26:        namespace fs = std::filesystem;
+        2:   27:        std::string tmpPath = UserHome + "/.steam/steam/steamapps/common/Proton " + proton + "/";
+        1:   27-block  0
+        1:   27-block  1
+        1:   27-block  2
+    $$$$$:   27-block  3
+    $$$$$:   27-block  4
+    $$$$$:   27-block  5
+        -:   28:        char chkPath[50];
+        1:   29:        strcpy(chkPath, tmpPath.c_str());
+        1:   30:        if(fs::is_directory(chkPath)){std::cout << proton << " exists.\n";return;}
+        1:   30-block  0
+        1:   30-block  1
+        1:   30-block  2
+        1:   30-block  3
+        1:   30-block  4
+    $$$$$:   30-block  5
+    $$$$$:   30-block  6
+    #####:   31:        else {std::cout << proton << " does not exist.\n";exit(EXIT_FAILURE);}
+    %%%%%:   31-block  0
+    %%%%%:   31-block  1
+    %%%%%:   31-block  2
+        -:   32:    }
+        -:   33:
+        1:   34:    void proton_call() const {
+        3:   35:        std::string exec_ = proton_path + proton + "/proton run " + program;
+        1:   35-block  0
+        1:   35-block  1
+        1:   35-block  2
+        1:   35-block  3
+    $$$$$:   35-block  4
+    $$$$$:   35-block  5
+    $$$$$:   35-block  6
+        -:   36:        char cmd[200];
+        1:   37:        strcpy(cmd, exec_.c_str());
+        1:   38:        system(cmd);
+        1:   39:    }
+        -:   40:
+        1:   41:    void setup() {
+        1:   42:        if (custom) {
+        1:   42-block  0
+    #####:   43:            program = _argv3;
+    %%%%%:   43-block  0
+    #####:   44:            proton_path = _argv2;
+    #####:   45:            return;
+        -:   46:        } else {
+        1:   47:            proton = _argv1;
+        1:   47-block  0
+        1:   48:            program = _argv2;
+        1:   49:            if (_argv1 == "5"){proton = "5.0";}
+        1:   49-block  0
+        1:   50:            proton_path = UserHome + "/.steam/steam/steamapps/common/Proton\\ ";
+        1:   50-block  0
+        1:   51:            return;
+        -:   52:        }
+        -:   53:    }
+        -:   54:};
+        -:   55:
+        -:   56:#endif //PROTON_CALLER_PROTONCALLER_H

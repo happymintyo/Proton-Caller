@@ -1,0 +1,81 @@
+        -:    0:Source:/home/avery/Documents/git/Proton-Caller/main.cpp
+        -:    0:Graph:/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/Proton_Caller.dir/main.cpp.gcno
+        -:    0:Data:/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/Proton_Caller.dir/main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:#include <string>
+        -:    3:#include "src/ProtonCaller.h"
+        -:    4:// #include "src/gui.h"
+        -:    5:
+        1:    6:int main(int argc, char *argv[]) {
+        2:    7:    ProtonClass ProtonObject;
+        1:    7-block  0
+    $$$$$:    7-block  1
+        1:    8:    ProtonObject.steam = "STEAM_COMPAT_DATA_PATH";
+        2:    9:    std::string version = "1.1.2";
+        1:    9-block  0
+    $$$$$:    9-block  1
+        1:   10:    std::cout << "Proton Caller by Avery Murray version: " << version << "\n";
+        1:   10-block  0
+        1:   10-block  1
+        1:   11:    std::string help_msg = "Usage: [-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
+        1:   11-block  0
+    $$$$$:   11-block  1
+        -:   12:
+        -:   13:    // check for compat data path
+        1:   14:    if (getenv(ProtonObject.steam) == nullptr) {
+    #####:   15:        std::cout << "Please add " << ProtonObject.steam << " to your environment:\n export" << ProtonObject.steam << "=$HOME/proton/\n" << help_msg;
+    %%%%%:   15-block  0
+    %%%%%:   15-block  1
+    %%%%%:   15-block  2
+    %%%%%:   15-block  3
+    %%%%%:   15-block  4
+    %%%%%:   15-block  5
+    #####:   16:        exit(EXIT_FAILURE);
+    %%%%%:   16-block  0
+        -:   17:    }
+        -:   18:
+        1:   19:    std::cout << ProtonObject.steam << " located at: " << getenv(ProtonObject.steam) << "\n";
+        1:   19-block  0
+        1:   19-block  1
+        1:   19-block  2
+        1:   19-block  3
+       1*:   20:    if (argc == 1){std::cout << help_msg;exit(EXIT_FAILURE);}
+        1:   20-block  0
+    %%%%%:   20-block  1
+    %%%%%:   20-block  2
+       1*:   21:    if (argv[1] != nullptr){ProtonObject._argv1 = argv[1];}else{exit(EXIT_FAILURE);}
+        1:   21-block  0
+        1:   21-block  1
+    %%%%%:   21-block  2
+       1*:   22:    if (argv[2] != nullptr){ProtonObject._argv2 = argv[2];}else{exit(EXIT_FAILURE);}
+        1:   22-block  0
+        1:   22-block  1
+    %%%%%:   22-block  2
+        -:   23:
+       1*:   24:    if (ProtonObject._argv1 == "-h"){std::cout << help_msg;exit(EXIT_SUCCESS);}
+        1:   24-block  0
+    %%%%%:   24-block  1
+    %%%%%:   24-block  2
+        1:   25:    if (ProtonObject._argv1 == "-c") {
+        1:   25-block  0
+    #####:   26:        ProtonObject.custom = true;
+    #####:   27:        if (argv[3] != nullptr){
+    %%%%%:   27-block  0
+    #####:   28:            ProtonObject._argv3 = argv[3];
+    %%%%%:   28-block  0
+    #####:   29:        } else{exit(EXIT_FAILURE);}
+    %%%%%:   29-block  0
+        1:   30:    } else{ProtonObject.custom = false;}
+        1:   30-block  0
+        -:   31:
+        1:   32:    ProtonObject.setup();
+        1:   32-block  0
+        1:   33:    ProtonObject.check();
+        1:   33-block  0
+        1:   34:    ProtonObject.proton_call();
+        1:   34-block  0
+        -:   35:
+        1:   36:    return 0;
+        1:   36-block  0
+        -:   37:}
