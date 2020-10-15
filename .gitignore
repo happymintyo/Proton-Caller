@@ -10,4 +10,5 @@ libs
 CMakeLists.txt
 venv
 cmake-build-debug
+cmake-build-debug-coverage
 pc
