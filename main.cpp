@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
-#include <cstring>
-#include <sys/stat.h>
-#include <filesystem>
+#include "src/ProtonCaller.h"
+#include "src/gui.h"
 
 using namespace std;
 
+/*
 class ProtonClass {
     public:
         string _argv1;
@@ -16,6 +16,17 @@ class ProtonClass {
         string program;
         string proton_path;
         bool custom{};
+        string UserHome = getenv("HOME");
+
+        void check() const {
+            if (custom){return;}
+            namespace fs = std::filesystem;
+            string tmpPath = UserHome + "/.steam/steam/steamapps/common/Proton " + proton + "/";
+            char chkPath[50];
+            strcpy(chkPath, tmpPath.c_str());
+            if(fs::is_directory(chkPath)){cout << proton << " exists.\n";return;}
+            else {cout << proton << " does not exist.\n";exit(EXIT_FAILURE);}
+        }
 
         void proton_call() const {
             string exec_ = proton_path + proton + "/proton run " + program;
@@ -25,8 +36,6 @@ class ProtonClass {
         }
 
         void setup() {
-            string _home = getenv("HOME");
-
             if (custom) {
                 program = _argv3;
                 proton_path = _argv2;
@@ -35,49 +44,31 @@ class ProtonClass {
                 proton = _argv1;
                 program = _argv2;
                 if (_argv1 == "5"){proton = "5.0";}
-                proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
+                proton_path = UserHome + "/.steam/steam/steamapps/common/Proton\\ ";
                 return;
             }
         }
-
-};
+}; */
 
 
 void help() {
     cout << "Usage: [-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
 }
 
-/*
-void checker(ProtonClass &pc) {
-    string _home = getenv("HOME");
-
-    if (pc.custom) {
-        pc.program = pc._argv3;
-        pc.proton_path = pc._argv2;
-        return;
-    } else {
-        pc.proton = pc._argv1;
-        pc.program = pc._argv2;
-        if (pc._argv1 == "5"){pc.proton = "5.0";}
-        pc.proton_path = _home + "/.steam/steam/steamapps/common/Proton\\ ";
-        return;
-    }
-}
-*/
 
 int main(int argc, char *argv[]) {
     ProtonClass ProtonObject;
     ProtonObject.steam = "STEAM_COMPAT_DATA_PATH";
-    string version = "1.0.3";
-    cout << "Proton Caller by Avery Murray version: " << version << "\n\n";
+    string version = "1.1.2";
+    cout << "Proton Caller by Avery Murray version: " << version << "\n";
 
     // check for compat data path
     if (getenv(ProtonObject.steam) == nullptr) {
-        cout << "Please add " << ProtonObject.steam << " to your environment:\n\n export" << ProtonObject.steam << "=$HOME/proton/\n";
+        cout << "Please add " << ProtonObject.steam << " to your environment:\n export" << ProtonObject.steam << "=$HOME/proton/\n";
         help();exit(EXIT_FAILURE);
     }
 
-    cout << ProtonObject.steam << " located at: " << getenv(ProtonObject.steam) << "\n\n";
+    cout << ProtonObject.steam << " located at: " << getenv(ProtonObject.steam) << "\n";
     if (argc == 1){help();exit(EXIT_FAILURE);}
     if (argv[1] != nullptr){ProtonObject._argv1 = argv[1];}else{exit(EXIT_FAILURE);}
     if (argv[2] != nullptr){ProtonObject._argv2 = argv[2];}else{exit(EXIT_FAILURE);}
@@ -92,7 +83,7 @@ int main(int argc, char *argv[]) {
 
 
     ProtonObject.setup();
-    ProtonObject.checkfs();
+    ProtonObject.check();
     ProtonObject.proton_call();
 
     return 0;
