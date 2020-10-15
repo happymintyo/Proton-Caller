@@ -1,3 +1,0 @@
-/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/rebuild_cache.dir
-/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/edit_cache.dir
-/home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage/CMakeFiles/Proton_Caller.dir

@@ -1,4 +1,0 @@
-/opt/clion-203.4203.24/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G "CodeBlocks - Unix Makefiles" /home/avery/Documents/git/Proton-Caller
--- Configuring done
--- Generating done
--- Build files have been written to: /home/avery/Documents/git/Proton-Caller/cmake-build-debug-coverage
