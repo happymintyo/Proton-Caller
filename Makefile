@@ -5,7 +5,7 @@ install:
 	cp ./proton-call usr/bin/
 	mkdir -p /usr/share/licenses/proton-call/
 	cp ./LICENSE /usr/share/licenses/proton-call/
-	install -g 0 -o 0 -m 0644 ./proton-call.6 /usr/share/man/man6/
+	install -g 0 -o 0 -m 0644 manual/proton-call.6 /usr/share/man/man6/
 	gzip -f usr/share/man/man6/proton-call.6
 
 uninstall:
