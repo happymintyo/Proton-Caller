@@ -22,7 +22,7 @@ public:
     std::string UserHome = getenv("HOME");
 
     void check() const {
-        if (custom){return;}
+        if (custom){std::cout<<"custom mode does not check for Proton folder.\n";return;}
         namespace fs = std::filesystem;
         std::string tmpPath = UserHome + "/.steam/steam/steamapps/common/Proton " + proton + "/";
         char chkPath[50];
@@ -39,6 +39,7 @@ public:
     }
 
     void setup() {
+        std::cout << "Custom mode: " << custom << std::endl;
         if (custom) {
             program = _argv3;
             proton_path = _argv2;

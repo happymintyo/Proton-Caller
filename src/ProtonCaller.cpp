@@ -4,7 +4,7 @@
 #include "ProtonCaller.h"
 
 void Args(ProtonClass &ProtonObject, int argc, char *argv[]) {
-    std::string help_msg = "Usage: [-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
+    std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
     if (argc == 1){std::cout << help_msg;exit(EXIT_FAILURE);}
     if (argv[1] != nullptr){ProtonObject._argv1 = argv[1];}
     else{exit(EXIT_FAILURE);}
