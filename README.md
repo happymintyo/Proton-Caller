@@ -21,7 +21,7 @@ proton-call 5 SpaceEngine.exe
 ```
 
 ```
-proton-call -c '/home/avery/.steam/steam/steamapps/common/Proton\\ 5.0/' SpaceEngine.exe
+proton-call -c '/home/avery/.steam/steam/steamapps/common/Proton\ 5.13' SpaceEngine.exe
 ```
 
 ## Install:
