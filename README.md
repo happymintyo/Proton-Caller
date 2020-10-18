@@ -8,7 +8,7 @@ Please create an issue if you want added features or have an issue.
 https://aur.archlinux.org/packages/proton-caller/
 
 ## Problem Reporting:
-Please create an issue on the [Github](https://github.com/caverym/Proton-Caller) page which lists: system, kernel version, game, shell, and if it is or isn't a Steam game – provide how you had installed it and where it is installed. Additionally provide screenshots of the shell and try many methods to get it to work and describe what you did in your issue.
+Please create an issue on the [Github](https://github.com/caverym/Proton-Caller) page which lists: system, kernel version, game, shell, and if it is or isn't a Steam game – provide how you had installed it and where it is installed. Additionally provide screenshots of the shell. Try many methods to get it to work and describe what you did in your issue.
 
 
 ## Usage:
