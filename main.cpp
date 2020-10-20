@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
 #include "src/ProtonCaller.h"
+#include "src/setup.h"
 
 int main(int argc, char *argv[]) {
     ProtonClass ProtonObject;
     ProtonObject.steam = "STEAM_COMPAT_DATA_PATH";
-    std::string version = "1.1.2";
+    ProtonObject.common = "PC_COMMON";
+    std::string version = "1.2.0";
     std::cout << "Proton Caller by Avery Murray version: " << version << "\n";
 
     // check for compat data path
@@ -16,8 +18,8 @@ int main(int argc, char *argv[]) {
 
     std::cout << ProtonObject.steam << " located at: " << getenv(ProtonObject.steam) << "\n";
     Args(ProtonObject, argc, argv);
-    ProtonObject.setup();
+    setEnvironment(ProtonObject);
     ProtonObject.check();
-    ProtonObject.proton_call();
+    ProtonObject.protonCall();
     return 0;
 }
