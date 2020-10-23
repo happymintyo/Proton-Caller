@@ -2,7 +2,6 @@
 // Created by avery on 15/10/2020.
 //
 #include "ProtonCaller.h"
-#include "setup.h"
 
 void Args(ProtonClass &ProtonObject, int argc, char *argv[]) {
     std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
@@ -24,7 +23,6 @@ void Args(ProtonClass &ProtonObject, int argc, char *argv[]) {
 
 void setEnvironment(ProtonClass &ProtonObject) {
 
-    std::cout << "Custom mode: " << ProtonObject.custom << std::endl;
     if (ProtonObject.custom) {
         ProtonObject.program = ProtonObject._argv3;
         ProtonObject.proton_path = ProtonObject._argv2;
@@ -36,6 +34,20 @@ void setEnvironment(ProtonClass &ProtonObject) {
         if (ProtonObject._argv1 == "5"){ProtonObject.proton = "5.0";}
         std::string prtn = "Proton\\ ";
         ProtonObject.proton_path = ProtonObject.common + prtn;
+        std::cout << "Custom mode: " << ProtonObject.custom << std::endl;
         return;
+    }
+}
+
+void findCommon(ProtonClass &ProtonObject) {
+
+    if (getenv(ProtonObject.common) != nullptr) {
+        std::cout << ProtonObject.common << " located at: ";
+        ProtonObject.common = getenv(ProtonObject.common);
+        std::cout << ProtonObject.common << std::endl;
+    } else {
+        std::cout << "\nPlease add a 'PC_COMMON' variable to your environment variables which point at the 'steamapps/common/' where your proton versions are installed.\n\n"
+                     "export PC_COMMON='/steam/location/common/'\n";
+        exit (EXIT_FAILURE);
     }
 }

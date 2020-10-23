@@ -20,7 +20,6 @@ public:
     std::string program;
     std::string proton_path;
     bool custom{};
-    std::string UserHome = getenv("HOME");
 
     void check() const {
         if (custom){std::cout<<"custom mode does not check for Proton folder.\n";return;}
@@ -29,7 +28,6 @@ public:
         std::string tmpPath = common + prtn + proton + "/";
         char chkPath[50];
         strcpy(chkPath, tmpPath.c_str());
-        std::cout<<chkPath<<std::endl;
         if(fs::is_directory(chkPath)){std::cout << proton << " exists.\n";return;}
         else {std::cout << proton << " does not exist.\n";exit(EXIT_FAILURE);}
     }
@@ -40,11 +38,12 @@ public:
         strcpy(cmd, exec_.c_str());
         system(cmd);
     }
-
 };
 
 void Args(ProtonClass &ProtonObject, int argc, char *argv[]);
 
 void setEnvironment(ProtonClass &ProtonObject);
+
+void findCommon(ProtonClass &ProtonObject);
 
 #endif //PROTON_CALLER_PROTONCALLER_H
