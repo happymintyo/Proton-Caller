@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include "src/ProtonCaller.h"
-#include "src/setup.h"
 
 int main(int argc, char *argv[]) {
     ProtonClass ProtonObject;
