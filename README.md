@@ -39,6 +39,13 @@ cd proton-caller
 makepkg -si
 ```
 
+```
+git clone https://github.com/caverym/Proton-Caller.git
+cd Proton-Caller
+make
+sudo make install
+```
+
 ### Space Engine example:
    To make a .desktop launcher create a shell script such as `/usr/bin/SpaceEngine`:
    ```
