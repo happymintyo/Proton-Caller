@@ -23,7 +23,7 @@ public:
     bool custom{};
 
     void check() const {
-        if (custom){std::cout<<"custom mode does not check for Proton folder.\n";return;}
+        if (custom){std::cout<<"custom mode does not check for Proton directory.\n";return;}
         namespace fs = std::filesystem;
         std::string prtn = "Proton ";
         std::string tmpPath = common + prtn + proton + "/";
@@ -39,7 +39,6 @@ public:
         char win[50];
         strcpy(win, program.c_str());
         strcpy(cmd, exec_.c_str());
-        std::cout<<cmd<<" run "<<win<<std::endl;
         execl(cmd,"proton", "run", win, NULL);
     }
 };
