@@ -32,7 +32,7 @@ void setEnvironment(ProtonClass &ProtonObject) {
         ProtonObject.proton = ProtonObject._argv1;
         ProtonObject.program = ProtonObject._argv2;
         if (ProtonObject._argv1 == "5"){ProtonObject.proton = "5.0";}
-        std::string prtn = "Proton\\ ";
+        std::string prtn = "Proton ";
         ProtonObject.proton_path = ProtonObject.common + prtn;
         std::cout << "Custom mode: " << ProtonObject.custom << std::endl;
         return;

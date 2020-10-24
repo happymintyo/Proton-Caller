@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <filesystem>
+#include <unistd.h>
 
 class ProtonClass {
 public:
@@ -33,10 +34,13 @@ public:
     }
 
     void protonCall() const {
-        std::string exec_ = proton_path + proton + "/proton run " + program;
+        std::string exec_ = proton_path + proton + "/proton";
         char cmd[200];
+        char win[50];
+        strcpy(win, program.c_str());
         strcpy(cmd, exec_.c_str());
-        system(cmd);
+        std::cout<<cmd<<" run "<<win<<std::endl;
+        execl(cmd,"proton", "run", win, NULL);
     }
 };
 
