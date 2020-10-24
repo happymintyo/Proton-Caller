@@ -1,5 +1,5 @@
 # Proton-Caller
-A script to automatically run programs using Steam's Proton
+A program to automatically run programs using Steam's Proton
 
 [Usage](https://github.com/caverym/Proton-Caller#usage)
 
