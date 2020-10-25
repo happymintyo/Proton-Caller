@@ -22,7 +22,7 @@ public:
     std::string proton_path;
     bool custom{};
 
-    void initPC() {
+    void initPC() const {
         check();
         protonCall();
     }
@@ -46,7 +46,6 @@ public:
         char win[50];
         strcpy(win, program.c_str());
         strcpy(cmd, exec_.c_str());
-        std::cout<<cmd<<" run "<<win<<std::endl;
         execl(cmd,"proton", "run", win, NULL);
     }
 };

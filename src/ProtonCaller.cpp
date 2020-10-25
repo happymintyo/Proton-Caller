@@ -7,7 +7,9 @@
 // this function is a mess and I should eventually change it
 
 void Args(ProtonClass &ProtonObject, int argc, char *argv[]) {
-    std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
+    std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./foo.exe]\n"
+                           "'proton-call 5 foo.exe'\n"
+                           "'proton-call -c \"/Proton 5.13\" foo.exe'\n";
     if (argc == 1) {
         std::cout << help_msg;
         exit(EXIT_FAILURE);
