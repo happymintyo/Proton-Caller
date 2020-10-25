@@ -3,32 +3,48 @@
 //
 #include "ProtonCaller.h"
 
+
+// this function is a mess and I should eventually change it
+
 void Args(ProtonClass &ProtonObject, int argc, char *argv[]) {
     std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]\n 'proton-call 5 ./foo.exe'\n 'proton-call -c '/Proton\\ 5.0/' ./foo.exe'\n";
-    if (argc == 1){std::cout << help_msg;exit(EXIT_FAILURE);}
-    if (argv[1] != nullptr){ProtonObject._argv1 = argv[1];}
-    else{exit(EXIT_FAILURE);}
-    if (ProtonObject._argv1 == "-h"){std::cout << help_msg;exit(EXIT_SUCCESS);}
+    // check for amount of arguments
+    if (argc == 1)
+    {std::cout << help_msg;exit(EXIT_FAILURE);}
 
+    //check if argv[1]
+    if (argv[1] != nullptr)
+    {ProtonObject._argv1 = argv[1];}
+    else{exit(EXIT_FAILURE);}
+
+    // check for help argument
+    if (ProtonObject._argv1 == "-h")
+    {std::cout << help_msg;exit(EXIT_SUCCESS);}
+
+    // check for custom mode argument
     if (ProtonObject._argv1 == "-c") {
         ProtonObject.custom = true;
+        //check if argv[3]
         if (argv[3] != nullptr){
             ProtonObject._argv3 = argv[3];
         } else{exit(EXIT_FAILURE);}
     } else{ProtonObject.custom = false;}
 
-    if (argv[2] != nullptr){ProtonObject._argv2 = argv[2];}
+    // check if argv[2]
+    if (argv[2] != nullptr)
+    {ProtonObject._argv2 = argv[2];}
     else{std::cout<<"What program?\n";exit(EXIT_FAILURE);}
 }
 
+// setup the Proton environment
 void setEnvironment(ProtonClass &ProtonObject) {
-
+    // check if in custom mode
     if (ProtonObject.custom) {
         ProtonObject.program = ProtonObject._argv3;
         ProtonObject.proton_path = ProtonObject._argv2;
         return;
     } else {
-        findCommon(ProtonObject);
+        ProtonObject.common = findCommon(ProtonObject.common);
         ProtonObject.proton = ProtonObject._argv1;
         ProtonObject.program = ProtonObject._argv2;
         if (ProtonObject._argv1 == "5"){ProtonObject.proton = "5.0";}
@@ -39,12 +55,13 @@ void setEnvironment(ProtonClass &ProtonObject) {
     }
 }
 
-void findCommon(ProtonClass &ProtonObject) {
-
-    if (getenv(ProtonObject.common) != nullptr) {
-        std::cout << ProtonObject.common << " located at: ";
-        ProtonObject.common = getenv(ProtonObject.common);
-        std::cout << ProtonObject.common << std::endl;
+const char* findCommon(const char *cCommon) {
+    // check if PC_COMMON exists
+    if (getenv(cCommon) != nullptr) {
+        std::cout << cCommon << " located at: ";
+        cCommon = getenv(cCommon);
+        std::cout << cCommon << std::endl;
+        return cCommon;
     } else {
         std::cout << "\nPlease add a 'PC_COMMON' variable to your environment variables which point at the 'steamapps/common/' where your proton versions are installed.\n\n"
                      "export PC_COMMON='/steam/location/common/'\n";
