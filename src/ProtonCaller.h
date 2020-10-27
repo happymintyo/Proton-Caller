@@ -22,12 +22,6 @@ public:
     std::string proton_path;
     bool custom{};
 
-    void initPC() const {
-        check();
-        protonCall();
-    }
-
-    // main environment checks
     void check() const {
         if (custom){std::cout<<"custom mode does not check for Proton directory.\n";return;}
         namespace fs = std::filesystem;
@@ -39,10 +33,9 @@ public:
         else {std::cout << proton << " does not exist.\n";exit(EXIT_FAILURE);}
     }
 
-    // the execution of Proton itself
     void protonCall() const {
         std::string exec_ = proton_path + proton + "/proton";
-        char cmd[100];
+        char cmd[200];
         char win[50];
         strcpy(win, program.c_str());
         strcpy(cmd, exec_.c_str());
@@ -54,6 +47,6 @@ void Args(ProtonClass &ProtonObject, int argc, char *argv[]);
 
 void setEnvironment(ProtonClass &ProtonObject);
 
-const char* findCommon(const char *cCommon);
+void findCommon(ProtonClass &ProtonObject);
 
 #endif //PROTON_CALLER_PROTONCALLER_H
