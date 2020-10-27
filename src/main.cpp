@@ -4,17 +4,15 @@
 
 int main(int argc, char *argv[]) {
     ProtonClass ProtonObject;
-    ProtonObject.steam = "STEAM_COMPAT_DATA_PATH";
     ProtonObject.common = "PC_COMMON";
-    std::string version = "1.2.0";
-    std::cout << "Proton Caller by Avery Murray version: " << version << ".\n";
+    std::cout << "Proton Caller by Avery Murray version: " << VERSION << ".\n";
 
     // check for compat data path
-    if (getenv(ProtonObject.steam) != nullptr) {
-        std::cout<< ProtonObject.steam << " located at: " << getenv(ProtonObject.steam) << "\n";
+    if (getenv(STEAM) != nullptr) {
+        std::cout<< STEAM << " located at: " << getenv(STEAM) << "\n";
     } else {
-        std::cout << "Please add " << ProtonObject.steam << " to your environment:\n "
-                     "export" << ProtonObject.steam << "=$HOME/proton/\n";
+        std::cout << "Please add " << STEAM << " to your environment:\n "
+                     "export" << STEAM << "=$HOME/proton/\n";
         exit(EXIT_FAILURE);
     }
 

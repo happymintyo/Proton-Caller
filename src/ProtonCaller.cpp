@@ -28,7 +28,7 @@ void setEnvironment(ProtonClass &ProtonObject) {
         ProtonObject.proton_path = ProtonObject._argv2;
         return;
     } else {
-        findCommon(ProtonObject);
+        ProtonObject.common = findCommon(ProtonObject.common);
         ProtonObject.proton = ProtonObject._argv1;
         ProtonObject.program = ProtonObject._argv2;
         if (ProtonObject._argv1 == "5"){ProtonObject.proton = "5.0";}
@@ -39,12 +39,13 @@ void setEnvironment(ProtonClass &ProtonObject) {
     }
 }
 
-void findCommon(ProtonClass &ProtonObject) {
-
-    if (getenv(ProtonObject.common) != nullptr) {
-        std::cout << ProtonObject.common << " located at: ";
-        ProtonObject.common = getenv(ProtonObject.common);
-        std::cout << ProtonObject.common << std::endl;
+const char* findCommon(const char *cCommon) {
+    // check if PC_COMMON exists
+    if (getenv(cCommon) != nullptr) {
+        std::cout << cCommon << " located at: ";
+        cCommon = getenv(cCommon);
+        std::cout << cCommon << std::endl;
+        return cCommon;
     } else {
         std::cout << "\nPlease add a 'PC_COMMON' variable to your environment variables which point at the 'steamapps/common/' where your proton versions are installed.\n\n"
                      "export PC_COMMON='/steam/location/common/'\n";

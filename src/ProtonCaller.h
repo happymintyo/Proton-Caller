@@ -10,12 +10,14 @@
 #include <filesystem>
 #include <unistd.h>
 
+#define STEAM "STEAM_COMPAT_DATA_PATH"
+#define VERSION "1.2.1"
+
 class ProtonClass {
 public:
     std::string _argv1;
     std::string _argv2;
     std::string _argv3;
-    const char *steam{};
     const char *common{};
     std::string proton;
     std::string program;
@@ -47,6 +49,6 @@ void Args(ProtonClass &ProtonObject, int argc, char *argv[]);
 
 void setEnvironment(ProtonClass &ProtonObject);
 
-void findCommon(ProtonClass &ProtonObject);
+const char* findCommon(const char *cCommon);
 
 #endif //PROTON_CALLER_PROTONCALLER_H
