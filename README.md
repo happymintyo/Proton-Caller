@@ -30,14 +30,14 @@ To install `proton-call`
 yay -S proton-caller
  ``` 
 
-or:
+or: (with makepkg)
 
 ```
 git clone https://aur.archlinux.org/proton-caller.git
 cd proton-caller
 makepkg -si
 ```
-
+or:
 ```
 git clone https://github.com/caverym/Proton-Caller.git
 cd Proton-Caller
