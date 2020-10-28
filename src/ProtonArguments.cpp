@@ -5,6 +5,7 @@
 
 #include "ProtonArguments.h"
 #include "ProtonCaller.h"
+#include "setup.h"
 
 #define ex exit(EXIT_FAILURE)
 #define HELP std::cout<<help_msg
@@ -36,6 +37,9 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
             proObj.custom = true;
             proArgs._argv3 = argv[3];
         } else {std::cout<<"What program?\n";ex;}
+    } else if (proArgs._argv1 == "--setup") {
+        setup(argv[1]);
+        exit(EXIT_SUCCESS);
     } else {
         proObj.custom = false;
     }
@@ -65,7 +69,8 @@ void setEnvironment(ProtonCaller &proObj) {
     if (getenv(STEAM) != nullptr) {
         std::cout << STEAM << " located at: " << getenv(STEAM) <<"\n";
     } else {
-        std::cout << STEAM << " must be added to your environment. Proton Will not run without it.\n";
+        //std::cout << STEAM << " must be added to your environment. Proton Will not run without it.\n";
+        setup(STEAM);
         ex;
     }
 }
@@ -76,9 +81,9 @@ const char* findCommon() {
         std::cout << COMMON << " located at: " << cCommon << "\n";
         return cCommon;
     } else {
-        std::cout << "\nPlease add a 'PC_COMMON' variable to your environment variables which point at the 'steamapps/common/' where your proton versions are installed.\n\n"
-                     "export PC_COMMON='/steam/location/common/'\n";
+        // std::cout << "\nPlease add a 'PC_COMMON' variable to your environment variables which point at the 'steamapps/common/' where your proton versions are installed.\n\n"
+        //             "export PC_COMMON='/steam/location/common/'\n";
+        setup(COMMON);
         ex;
     }
 }
-
