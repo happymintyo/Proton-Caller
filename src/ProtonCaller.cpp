@@ -4,6 +4,7 @@
 
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
+#include "setup.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "Proton Caller by Avery Murray version: " << VERSION << ".\n";

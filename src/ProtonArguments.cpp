@@ -3,8 +3,9 @@
 //
 
 
-#include "ProtonArguments.h"
 #include "ProtonCaller.h"
+#include "ProtonArguments.h"
+#include "setup.h"
 
 #define ex exit(EXIT_FAILURE)
 #define HELP std::cout<<help_msg
@@ -36,6 +37,9 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
             proObj.custom = true;
             proArgs._argv3 = argv[3];
         } else {std::cout<<"What program?\n";ex;}
+    } else if (proArgs._argv1 == "--setup") {
+        setup(argv[1]);
+        exit(EXIT_SUCCESS);
     } else {
         proObj.custom = false;
     }

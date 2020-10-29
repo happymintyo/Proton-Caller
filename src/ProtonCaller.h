@@ -10,6 +10,9 @@
 #include <cstring>
 #include <filesystem>
 #include <unistd.h>
+// For the future !
+//#include <ncurses.h>
+//#include <menu.h>
 
 #define VERSION "1.3.0"
 #define STEAM "STEAM_COMPAT_DATA_PATH"

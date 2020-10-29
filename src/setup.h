@@ -7,4 +7,6 @@
 
 void setup(const char *reason);
 
+void protonMenu();
+
 #endif //PROTON_CALLER_SETUP_H
