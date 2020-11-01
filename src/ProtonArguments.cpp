@@ -9,8 +9,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-#define ex exit(EXIT_FAILURE)
-
 
 struct argsStruct {
     std::string _argv1;
@@ -19,13 +17,7 @@ struct argsStruct {
 };
 struct argsStruct proArgs;
 
-// This needs serious cleaning.
 void Args(ProtonCaller &proObj, int argc, char *argv[]) {
-    std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./foo.exe]\n"
-                           "'proton-call 5 foo.exe'\n"
-                           "'proton-call -c \"/Proton 5.13\" foo.exe'\n";
-
-
     if (argc == 1) {
         std::cout << "You must supply argument. View help (-h).\n";
         exit(EXIT_FAILURE);
@@ -33,54 +25,6 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
     argsMain(argc, argv);
     defineArgs1(proObj, argc, argv);
     defineArgs2(argc, argv);
-}
-
-void setEnvironment(ProtonCaller &proObj) {
-    if (proObj.custom) {
-        proObj.program = proArgs._argv3;
-        proObj.proton_path = proArgs._argv2;
-    } else {
-        proObj.common = findCommon();
-        if (proArgs._argv1 == "5") {proObj.proton = "5.0";}
-        else {proObj.proton = proArgs._argv1;}
-        proObj.program = proArgs._argv2;
-        std::string _proton = "Proton ";
-        proObj.proton_path = proObj.common + _proton;
-    }
-
-    if (getenv(STEAM) != nullptr) {
-        std::cout << STEAM << " located at: " << getenv(STEAM) <<"\n";
-    } else {
-        std::cout << STEAM << " must be added to your environment. Proton Will not run without it.\n";
-        ex;
-    }
-}
-
-const char* findCommon() {
-    if (getenv(COMMON) != nullptr) {
-        const char *cCommon = getenv(COMMON);
-        std::cout << COMMON << " located at: " << cCommon << "\n";
-        return cCommon;
-    } else {
-        setup(COMMON);
-        ex;
-    }
-}
-
-void helpMsg() {
-    FILE *fFile;
-    fFile = fopen("/usr/share/proton-caller/HELP", "r");
-    if (fFile == nullptr) {
-        std::cout << "Error opening help message.\n";
-        exit(EXIT_FAILURE);
-    }
-    char c;
-    c = fgetc(fFile);
-    while (c != EOF) {
-        std::cout << c;
-        c = fgetc(fFile);
-    }
-    fclose(fFile);
 }
 
 void argsMain(int argc, char *argv[]) {
@@ -123,3 +67,53 @@ void defineArgs2(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 }
+
+void setEnvironment(ProtonCaller &proObj) {
+    if (proObj.custom) {
+        proObj.program = proArgs._argv3;
+        proObj.proton_path = proArgs._argv2;
+        findEnv(1);
+    } else {
+        proObj.common = findEnv(0);
+        if (proArgs._argv1 == "5") {proObj.proton = "5.0";}
+        else {proObj.proton = proArgs._argv1;}
+        proObj.program = proArgs._argv2;
+        std::string _proton = "Proton ";
+        proObj.proton_path = proObj.common + _proton;
+    }
+}
+
+const char* findEnv(int rtn) {
+    if (getenv(STEAM) != nullptr) {
+        std::cout << STEAM << " located at: " << getenv(STEAM) <<"\n";
+    } else {
+        std::cout << STEAM << " must be added to your environment. Proton Will not run without it.\n";
+        exit(EXIT_FAILURE);
+    }
+    if (rtn == 1){return nullptr;}
+    if (getenv(COMMON) != nullptr) {
+        const char *cCommon = getenv(COMMON);
+        std::cout << COMMON << " located at: " << cCommon << "\n";
+        return cCommon;
+    } else {
+        setup(COMMON);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void helpMsg() {
+    FILE *fFile;
+    fFile = fopen("/usr/share/proton-caller/HELP", "r");
+    if (fFile == nullptr) {
+        std::cout << "Error opening help message.\n";
+        exit(EXIT_FAILURE);
+    }
+    char c;
+    c = fgetc(fFile);
+    while (c != EOF) {
+        std::cout << c;
+        c = fgetc(fFile);
+    }
+    fclose(fFile);
+}
+

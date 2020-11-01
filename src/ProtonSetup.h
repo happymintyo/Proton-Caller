@@ -12,12 +12,14 @@ void setup(const char *reason);
 
 void protonMenu();
 
-void mkdir(const char *profile);
+void mkdir();
 
 const char *findProfile();
 
 void message();
 
 void PRVersion();
+
+void createEnv(const char *var);
 
 #endif //PROTON_CALLER_PROTONSETUP_H

@@ -45,14 +45,19 @@ void protonMenu() {
     int inputVal = atoi(input);
     switch (inputVal) {
         case 1:
-            mkdir(findProfile());
+            mkdir();
+
             break;
+        case 2:
+
+        case 3:
+
         case 4:
             exit(EXIT_SUCCESS);
     }
 }
 
-void mkdir(const char *profile) {
+void mkdir() {
     std::string _proton = "/proton";
     std::string dir = getenv("HOME") + _proton;
     std::filesystem::create_directory(dir);
@@ -69,13 +74,17 @@ const char *findProfile() {
 void message() {
     std::cout << PROGRAM << " " << VERSION <<
               "    Copyright (C) 2020  " << AUTHOR << "\n"
-                                                      "    This program comes with ABSOLUTELY NO WARRANTY.\n"
-                                                      "    This is free software, and you are welcome to redistribute it\n"
-                                                      "    under certain conditions.\n\n";
+              "    This program comes with ABSOLUTELY NO WARRANTY.\n"
+              "    This is free software, and you are welcome to redistribute it\n"
+              "    under certain conditions.\n\n";
 }
 
 void PRVersion() {
     message();
     std::cout << "\n" <<
               "Compiled at: " << __TIMESTAMP__ << "\n";
+}
+
+void createEnv(const char *var) {
+
 }

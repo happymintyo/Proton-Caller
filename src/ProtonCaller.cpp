@@ -28,7 +28,6 @@
 #include "ProtonArguments.h"
 
 int main(int argc, char *argv[]) {
-    // message();
     ProtonCaller proObj;
     Args(proObj, argc, argv);
     setEnvironment(proObj);
