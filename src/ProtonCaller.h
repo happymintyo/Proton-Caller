@@ -8,12 +8,8 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-#include <filesystem>
 #include <unistd.h>
-// For the future !
-//#include <ncurses.h>
-//#include <menu.h>
-
+#include <filesystem>
 #ifdef linux
 #include <linux/version.h>
 #endif

@@ -6,9 +6,18 @@
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
 #include "ProtonSetup.h"
+#include <cstdio>
+#include <cstdlib>
 
 #define ex exit(EXIT_FAILURE)
 #define HELP std::cout<<help_msg
+
+#ifdef NORM
+#define HELPLOCAL = "/usr/share/proton-caller/HELP"
+#else
+#define HELPLOCAL = "../HELP"
+#endif
+
 
 struct argsStruct {
     std::string _argv1;
@@ -17,10 +26,12 @@ struct argsStruct {
 };
 struct argsStruct proArgs;
 
+// This needs serious cleaning.
 void Args(ProtonCaller &proObj, int argc, char *argv[]) {
     std::string help_msg = "Usage: [-c, -h][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./foo.exe]\n"
                            "'proton-call 5 foo.exe'\n"
                            "'proton-call -c \"/Proton 5.13\" foo.exe'\n";
+
 
     if (argc == 1) {HELP;ex;}
     if (argv[1] != nullptr) {
@@ -28,19 +39,17 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
     } else {HELP;ex;}
 
     if (proArgs._argv1 == "-h") {
-        HELP;
-        std::cout << "Compiled at: " << __TIMESTAMP__ << ".\n";
+        HELPMSG();
         exit(EXIT_SUCCESS);
     } else if (proArgs._argv1 == "-c") {
         std::cout << "Custom mode: " << proObj.custom << std::endl << "Will not check for Proton.\n";
-        if (argv[3] != nullptr) {
+        if (argv[3] != NULL) {
             proObj.custom = true;
             proArgs._argv3 = argv[3];
         } else {std::cout<<"What program?\n";ex;}
     } else if (proArgs._argv1 == "-v") {
             PRVersion();
-    }
-    else if (proArgs._argv1 == "--setup") {
+    } else if (proArgs._argv1 == "--setup") {
         setup(argv[1]);
         exit(EXIT_SUCCESS);
     } else {
@@ -89,3 +98,18 @@ const char* findCommon() {
     }
 }
 
+void HELPMSG() {
+    FILE *fFile;
+    fFile = fopen("/usr/share/proton-caller/HELP", "r");
+    if (fFile == NULL) {
+        std::cout << "Error opening help message.\n";
+        exit(EXIT_FAILURE);
+    }
+    char fName[4], c;
+    c = fgetc(fFile);
+    while (c != EOF) {
+        std::cout << c;
+        c = fgetc(fFile);
+    }
+    fclose(fFile);
+}

@@ -4,6 +4,9 @@
 
 #ifndef PROTON_CALLER_PROTONSETUP_H
 #define PROTON_CALLER_PROTONSETUP_H
+// For the future !
+//#include <ncurses.h>
+//#include <menu.h>
 
 void setup(const char *reason);
 

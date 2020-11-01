@@ -14,5 +14,6 @@ void setEnvironment(ProtonCaller &proObj);
 
 const char* findCommon();
 
+void HELPMSG();
 
 #endif //PROTON_CALLER_PROTONARGUMENTS_H
