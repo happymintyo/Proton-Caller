@@ -10,13 +10,6 @@
 #include <cstdlib>
 
 #define ex exit(EXIT_FAILURE)
-#define HELP std::cout<<help_msg
-
-#ifdef NORM
-#define HELPLOCAL = "/usr/share/proton-caller/HELP"
-#else
-#define HELPLOCAL = "../HELP"
-#endif
 
 
 struct argsStruct {
@@ -33,36 +26,13 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
                            "'proton-call -c \"/Proton 5.13\" foo.exe'\n";
 
 
-    if (argc == 1) {HELP;ex;}
-    if (argv[1] != nullptr) {
-        proArgs._argv1 = argv[1];
-    } else {HELP;ex;}
-
-    if (proArgs._argv1 == "-h") {
-        HELPMSG();
-        exit(EXIT_SUCCESS);
-    } else if (proArgs._argv1 == "-c") {
-        std::cout << "Custom mode: " << proObj.custom << std::endl << "Will not check for Proton.\n";
-        if (argv[3] != NULL) {
-            proObj.custom = true;
-            proArgs._argv3 = argv[3];
-        } else {std::cout<<"What program?\n";ex;}
-    } else if (proArgs._argv1 == "-v") {
-            PRVersion();
-    } else if (proArgs._argv1 == "--setup") {
-        setup(argv[1]);
-        exit(EXIT_SUCCESS);
-    } else {
-        proObj.custom = false;
+    if (argc == 1) {
+        std::cout << "You must supply argument. View help (-h).\n";
+        exit(EXIT_FAILURE);
     }
-
-    if (argv[2] != nullptr) {
-        proArgs._argv2 = argv[2];
-    } else {
-        HELP;
-        std::cout<<"What program?\n";
-        ex;
-    }
+    argsMain(argc, argv);
+    defineArgs1(proObj, argc, argv);
+    defineArgs2(argc, argv);
 }
 
 void setEnvironment(ProtonCaller &proObj) {
@@ -92,24 +62,64 @@ const char* findCommon() {
         std::cout << COMMON << " located at: " << cCommon << "\n";
         return cCommon;
     } else {
-        std::cout << "\nPlease add a 'PC_COMMON' variable to your environment variables which point at the 'steamapps/common/' where your proton versions are installed.\n\n"
-                     "export PC_COMMON='/steam/location/common/'\n";
+        setup(COMMON);
         ex;
     }
 }
 
-void HELPMSG() {
+void helpMsg() {
     FILE *fFile;
     fFile = fopen("/usr/share/proton-caller/HELP", "r");
-    if (fFile == NULL) {
+    if (fFile == nullptr) {
         std::cout << "Error opening help message.\n";
         exit(EXIT_FAILURE);
     }
-    char fName[4], c;
+    char c;
     c = fgetc(fFile);
     while (c != EOF) {
         std::cout << c;
         c = fgetc(fFile);
     }
     fclose(fFile);
+}
+
+void argsMain(int argc, char *argv[]) {
+    if (argv[1] != nullptr) {
+        proArgs._argv1 = argv[1];
+    } else if (argv[2] != nullptr) {
+        proArgs._argv2 = argv[2];
+    } else if (argv[3] != nullptr) {
+        proArgs._argv3 = argv[3];
+    } else {
+        std::cout << "Crashed.\n";
+        exit(EXIT_FAILURE);
+    }
+}
+
+void defineArgs1(ProtonCaller &proObj, int argc, char *argv[]) {
+    if (proArgs._argv1 == "-h") {
+        helpMsg();
+        exit(EXIT_SUCCESS);
+    } else if (proArgs._argv1 == "-v") {
+        PRVersion();
+        exit(EXIT_SUCCESS);
+    } else if (proArgs._argv1 == "-c") {
+        std::cout << "Custom mode: will not check for Proton.\n";
+        if (argv[3] != nullptr) {
+            proObj.custom = true;
+            proArgs._argv3 = argv[3];
+            return;
+        }
+    } else if (proArgs._argv1 == "--setup") {
+        setup("--setup");
+    }
+}
+
+void defineArgs2(int argc, char *argv[]) {
+    if (argv[2] != nullptr) {
+        proArgs._argv2 = argv[2];
+    } else {
+        std::cout << "What program?\n";
+        exit(EXIT_FAILURE);
+    }
 }

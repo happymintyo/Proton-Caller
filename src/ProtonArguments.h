@@ -14,6 +14,12 @@ void setEnvironment(ProtonCaller &proObj);
 
 const char* findCommon();
 
-void HELPMSG();
+void helpMsg();
+
+void argsMain(int argc, char *argv[]);
+
+void defineArgs1(ProtonCaller &proObj, int argc, char *argv[]);
+
+void defineArgs2(int argc, char *argv[]);
 
 #endif //PROTON_CALLER_PROTONARGUMENTS_H

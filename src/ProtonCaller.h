@@ -52,8 +52,4 @@ public:
     }
 };
 
-void message();
-
-void PRVersion();
-
 #endif //PROTON_CALLER_PROTONCALLER_H

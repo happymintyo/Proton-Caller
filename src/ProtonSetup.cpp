@@ -11,9 +11,11 @@ void setup(const char *reason) {
     std::cout << "Starting setup because: " << reason << ".\n\n";
     std::cout << "export " << STEAM << "=$HOME/proton\n"
                                        "mkdir ~/proton\n";
-    std::cout << "export " << COMMON << "=y(path to steam's common folder).\n\n";
-    std::cout << "Please add these to your environment and install Proton to your " << COMMON << " directory.\n"
-                                                                                                 "Proton and Proton-Caller will not work without these.\n";
+    std::cout << "export " << COMMON << "=(path to steam's common folder).\n\n";
+    std::cout << "Please add these to your environment and install Proton to your "
+              << COMMON << " directory.\n"
+              "Proton and Proton-Caller will not work without these.\n";
+
     std::string input;
     std::cout << "Continue? [y/n]: ";
     std::cin >> input;
@@ -62,4 +64,18 @@ const char *findProfile() {
     std::cout << "Where is your shell profile file? (.bashrc, .zshrc, etc…) ";
     const char *profile;
     return profile;
+}
+
+void message() {
+    std::cout << PROGRAM << " " << VERSION <<
+              "    Copyright (C) 2020  " << AUTHOR << "\n"
+                                                      "    This program comes with ABSOLUTELY NO WARRANTY.\n"
+                                                      "    This is free software, and you are welcome to redistribute it\n"
+                                                      "    under certain conditions.\n\n";
+}
+
+void PRVersion() {
+    message();
+    std::cout << "\n" <<
+              "Compiled at: " << __TIMESTAMP__ << "\n";
 }

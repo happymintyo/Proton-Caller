@@ -16,4 +16,8 @@ void mkdir(const char *profile);
 
 const char *findProfile();
 
+void message();
+
+void PRVersion();
+
 #endif //PROTON_CALLER_PROTONSETUP_H

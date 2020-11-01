@@ -26,7 +26,6 @@
  */
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
-#include "ProtonSetup.h"
 
 int main(int argc, char *argv[]) {
     // message();
@@ -36,19 +35,4 @@ int main(int argc, char *argv[]) {
     proObj.check();
     proObj.protonCall();
     return 0;
-}
-
-void message() {
-    std::cout << PROGRAM << " " << VERSION <<
-                            "    Copyright (C) 2020  " << AUTHOR << "\n"
-                            "    This program comes with ABSOLUTELY NO WARRANTY.\n"
-                            "    This is free software, and you are welcome to redistribute it\n"
-                            "    under certain conditions.\n\n";
-}
-
-void PRVersion() {
-    message();
-    std::cout << "\n" <<
-              "Compiled at: " << __TIMESTAMP__ << "\n";
-    exit(EXIT_SUCCESS);
 }
