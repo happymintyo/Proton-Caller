@@ -4,7 +4,7 @@
 
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
-#include "setup.h"
+#include "ProtonSetup.h"
 
 void setup(const char *reason) {
     message();
@@ -60,5 +60,6 @@ void mkdir(const char *profile) {
 
 const char *findProfile() {
     std::cout << "Where is your shell profile file? (.bashrc, .zshrc, etc…) ";
-
+    const char *profile;
+    return profile;
 }

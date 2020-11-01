@@ -2,8 +2,8 @@
 // Created by avery on 28/10/2020.
 //
 
-#ifndef PROTON_CALLER_SETUP_H
-#define PROTON_CALLER_SETUP_H
+#ifndef PROTON_CALLER_PROTONSETUP_H
+#define PROTON_CALLER_PROTONSETUP_H
 
 void setup(const char *reason);
 
@@ -13,4 +13,4 @@ void mkdir(const char *profile);
 
 const char *findProfile();
 
-#endif //PROTON_CALLER_SETUP_H
+#endif //PROTON_CALLER_PROTONSETUP_H

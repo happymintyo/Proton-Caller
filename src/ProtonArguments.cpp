@@ -5,7 +5,7 @@
 
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
-#include "setup.h"
+#include "ProtonSetup.h"
 
 #define ex exit(EXIT_FAILURE)
 #define HELP std::cout<<help_msg
@@ -38,9 +38,7 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
             proArgs._argv3 = argv[3];
         } else {std::cout<<"What program?\n";ex;}
     } else if (proArgs._argv1 == "-v") {
-        //std::cout << "Proton Caller by Avery Murray version: " << VERSION << ".\n";
-        message();
-        exit(EXIT_SUCCESS);
+            PRVersion();
     }
     else if (proArgs._argv1 == "--setup") {
         setup(argv[1]);
@@ -90,3 +88,4 @@ const char* findCommon() {
         ex;
     }
 }
+
