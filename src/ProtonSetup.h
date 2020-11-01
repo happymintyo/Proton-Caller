@@ -20,6 +20,6 @@ void message();
 
 void PRVersion();
 
-void createEnv(const char *var);
+void createEnv(bool var);
 
 #endif //PROTON_CALLER_PROTONSETUP_H

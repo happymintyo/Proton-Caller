@@ -5,6 +5,7 @@
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
 #include "ProtonSetup.h"
+#include <fstream>
 
 void setup(const char *reason) {
     message();
@@ -16,45 +17,7 @@ void setup(const char *reason) {
               << COMMON << " directory.\n"
               "Proton and Proton-Caller will not work without these.\n";
 
-    std::string input;
-    std::cout << "Continue? [y/n]: ";
-    std::cin >> input;
-    if (input == "y") {
-        // system("clear");
-        protonMenu();
-    }
     exit(EXIT_SUCCESS);
-}
-
-void protonMenu() {
-    std::cout << "\n"
-                 " ------------------------------Menu------------------------------\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |  1. Create Proton Folder and environment variable.           |\n"
-                 " |                                                              |\n"
-                 " |  2. Create PC_COMMON environment variable.                   |\n"
-                 " |                                                              |\n"
-                 " |  3. All of the above.                                        |\n"
-                 " |                                                              |\n"
-                 " |  4. Exit.                                                    |\n"
-                 " |                                                              |\n"
-                 " ----------------------------------------------------------------\n\n";
-    char input[1];
-    std::cin >> input;
-    int inputVal = atoi(input);
-    switch (inputVal) {
-        case 1:
-            mkdir();
-
-            break;
-        case 2:
-
-        case 3:
-
-        case 4:
-            exit(EXIT_SUCCESS);
-    }
 }
 
 void mkdir() {
@@ -73,7 +36,7 @@ const char *findProfile() {
 
 void message() {
     std::cout << PROGRAM << " " << VERSION <<
-              "    Copyright (C) 2020  " << AUTHOR << "\n"
+              "    Copyright (C) 2020    " << AUTHOR << "\n"
               "    This program comes with ABSOLUTELY NO WARRANTY.\n"
               "    This is free software, and you are welcome to redistribute it\n"
               "    under certain conditions.\n\n";
@@ -85,6 +48,20 @@ void PRVersion() {
               "Compiled at: " << __TIMESTAMP__ << "\n";
 }
 
-void createEnv(const char *var) {
-
+void createEnv(bool var) {
+    std::string shell;
+    std::cout << "Where is your shell profile? (~/.bashrc, ~/.zshrc): ";
+    std::cin >> shell;
+    std::ofstream fProfile;
+    fProfile.open(shell,std::ios::out);
+    if (var) {
+        //fProfile << "\nexport " << STEAM << "=$HOME/proton\n";
+    } else {
+        std::string cCommon;
+        std::cout << "Where is your Steam common directory: ";
+        std::cin >> cCommon;
+        //system("echo 'export ", COMMON, "=", cCommon);
+        //fProfile << "\nexport " << COMMON << "=" << cCommon << "\n";
+    }
+    fProfile.close();
 }

@@ -55,7 +55,7 @@ void defineArgs1(ProtonCaller &proObj, int argc, char *argv[]) {
             return;
         }
     } else if (proArgs._argv1 == "--setup") {
-        setup("--setup");
+        setup(argv[1]);
     }
 }
 
