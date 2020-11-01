@@ -9,4 +9,8 @@ void setup(const char *reason);
 
 void protonMenu();
 
+void mkdir(const char *profile);
+
+const char *findProfile();
+
 #endif //PROTON_CALLER_SETUP_H

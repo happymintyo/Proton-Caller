@@ -7,6 +7,7 @@
 #include "setup.h"
 
 void setup(const char *reason) {
+    message();
     std::cout << "Starting setup because: " << reason << ".\n\n";
     std::cout << "export " << STEAM << "=$HOME/proton\n"
                                        "mkdir ~/proton\n";
@@ -17,7 +18,7 @@ void setup(const char *reason) {
     std::cout << "Continue? [y/n]: ";
     std::cin >> input;
     if (input == "y") {
-        system("clear");
+        // system("clear");
         protonMenu();
     }
     exit(EXIT_SUCCESS);
@@ -28,17 +29,36 @@ void protonMenu() {
                  " ------------------------------Menu------------------------------\n"
                  " |                                                              |\n"
                  " |                                                              |\n"
+                 " |  1. Create Proton Folder and environment variable.           |\n"
                  " |                                                              |\n"
+                 " |  2. Create PC_COMMON environment variable.                   |\n"
                  " |                                                              |\n"
+                 " |  3. All of the above.                                        |\n"
                  " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
-                 " |                                                              |\n"
+                 " |  4. Exit.                                                    |\n"
                  " |                                                              |\n"
                  " ----------------------------------------------------------------\n\n";
+    char input[1];
+    std::cin >> input;
+    int inputVal = atoi(input);
+    switch (inputVal) {
+        case 1:
+            mkdir(findProfile());
+            break;
+        case 4:
+            exit(EXIT_SUCCESS);
+    }
+}
+
+void mkdir(const char *profile) {
+    std::string _proton = "/proton";
+    std::string dir = getenv("HOME") + _proton;
+    std::filesystem::create_directory(dir);
+    std::cout << dir << " created.\n";
+    
+}
+
+const char *findProfile() {
+    std::cout << "Where is your shell profile file? (.bashrc, .zshrc, etc…) ";
+
 }
