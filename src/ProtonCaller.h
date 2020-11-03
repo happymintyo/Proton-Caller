@@ -10,9 +10,6 @@
 #include <cstring>
 #include <unistd.h>
 #include <filesystem>
-#ifdef linux
-#include <linux/version.h>
-#endif
 
 #define PROGRAM "Proton Caller"
 #define AUTHOR "Avery Murray"
@@ -29,8 +26,17 @@ public:
     bool custom{};
 
     void check() const {
-        if (custom){return;} // just return if in custom mode,
         namespace fs = std::filesystem;
+        if (custom) {
+            if(fs::is_directory(proton_path)) {
+                std::cout << "'" << proton_path << "' exists.\n";
+                return;
+            } else {
+                std::cout << "'" << proton_path << "' Does not exist.\n";
+                exit(EXIT_FAILURE);
+            }
+        } // just return if in custom mode,
+        // namespace fs = std::filesystem;
         std::string _proton = "Proton ";
         std::string path = common + _proton + proton + "/";
         char chkPath[50];

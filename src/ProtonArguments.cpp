@@ -48,7 +48,7 @@ void defineArgs1(ProtonCaller &proObj, int argc, char *argv[]) {
         PRVersion();
         exit(EXIT_SUCCESS);
     } else if (proArgs._argv1 == "-c") {
-        std::cout << "Custom mode: will not check for Proton.\n";
+        std::cout << "Custom mode.\n";
         if (argv[3] != nullptr) {
             proObj.custom = true;
             proArgs._argv3 = argv[3];

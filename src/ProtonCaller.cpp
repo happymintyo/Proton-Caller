@@ -24,6 +24,7 @@
 /* Most includes and macros defined in
  * ProtonCaller.h. Look there for everything.
  */
+
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
 
