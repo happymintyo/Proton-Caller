@@ -35,8 +35,7 @@ public:
                 std::cout << "'" << proton_path << "' Does not exist.\n";
                 exit(EXIT_FAILURE);
             }
-        } // just return if in custom mode,
-        // namespace fs = std::filesystem;
+        }
         std::string _proton = "Proton ";
         std::string path = common + _proton + proton + "/";
         char chkPath[50];
