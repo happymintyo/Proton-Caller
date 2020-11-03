@@ -20,12 +20,14 @@ void setup(const char *reason) {
     exit(EXIT_SUCCESS);
 }
 
+/*
+ * Planned
 void mkdir() {
     std::string _proton = "/proton";
     std::string dir = getenv("HOME") + _proton;
     std::filesystem::create_directory(dir);
     std::cout << dir << " created.\n";
-    
+
 }
 
 const char *findProfile() {
@@ -33,6 +35,7 @@ const char *findProfile() {
     const char *profile;
     return profile;
 }
+*/
 
 void message() {
     std::cout << PROGRAM << " " << VERSION <<
@@ -48,6 +51,7 @@ void PRVersion() {
               "Compiled at: " << __TIMESTAMP__ << "\n";
 }
 
+/* Planned
 void createEnv(bool var) {
     std::string shell;
     std::cout << "Where is your shell profile? (~/.bashrc, ~/.zshrc): ";
@@ -65,3 +69,4 @@ void createEnv(bool var) {
     }
     fProfile.close();
 }
+*/
