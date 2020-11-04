@@ -19,7 +19,7 @@ struct argsStruct proArgs;
 
 void Args(ProtonCaller &proObj, int argc, char *argv[]) {
     if (argc == 1) {
-        std::cout << "You must supply argument. View help (-h).\n";
+        std::cout << "You must supply an argument. View help (-h).\n";
         exit(EXIT_FAILURE);
     }
     argsMain(argc, argv);
