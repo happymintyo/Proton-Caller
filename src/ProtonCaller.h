@@ -28,11 +28,11 @@ public:
     void check() const {
         namespace fs = std::filesystem;
         if (custom) {
-            if(fs::is_directory(proton_path)) {
+            if (fs::is_directory(proton_path)) {
                 std::cout << "'" << proton_path << "' exists.\n";
                 return;
             } else {
-                std::cout << "'" << proton_path << "' Does not exist.\n";
+                std::cout << "'" << proton_path << "' does not exist.\n";
                 exit(EXIT_FAILURE);
             }
         }

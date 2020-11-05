@@ -75,22 +75,22 @@ void setEnvironment(ProtonCaller &proObj) {
         findEnv(1);
     } else {
         proObj.common = findEnv(0);
-        if (proArgs._argv1 == "5") {proObj.proton = "5.0";}
-        else {proObj.proton = proArgs._argv1;}
+        if (proArgs._argv1 == "5") { proObj.proton = "5.0"; }
+        else { proObj.proton = proArgs._argv1; }
         proObj.program = proArgs._argv2;
         std::string _proton = "Proton ";
         proObj.proton_path = proObj.common + _proton;
     }
 }
 
-const char* findEnv(int rtn) {
+const char *findEnv(int rtn) {
     if (getenv(STEAM) != nullptr) {
-        std::cout << STEAM << " located at: " << getenv(STEAM) <<"\n";
+        std::cout << STEAM << " located at: " << getenv(STEAM) << "\n";
     } else {
         std::cout << STEAM << " must be added to your environment. Proton Will not run without it.\n";
         exit(EXIT_FAILURE);
     }
-    if (rtn == 1){return nullptr;}
+    if (rtn == 1) { return nullptr; }
     if (getenv(COMMON) != nullptr) {
         const char *cCommon = getenv(COMMON);
         std::cout << COMMON << " located at: " << cCommon << "\n";
@@ -116,4 +116,3 @@ void helpMsg() {
     }
     fclose(fFile);
 }
-
