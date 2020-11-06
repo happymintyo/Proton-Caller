@@ -13,7 +13,7 @@
 
 #define PROGRAM "Proton Caller"
 #define AUTHOR "Avery Murray"
-#define VERSION "1.3.0"
+#define VERSION "1.3.2"
 #define STEAM "STEAM_COMPAT_DATA_PATH"
 
 
@@ -38,7 +38,7 @@ public:
         }
         std::string _proton = "Proton ";
         std::string path = common + _proton + proton + "/";
-        char chkPath[50];
+        char chkPath[200];
         strcpy(chkPath, path.c_str());
         if (fs::is_directory(chkPath)) {
             std::cout << proton << " exists.\n";
