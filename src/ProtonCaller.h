@@ -13,7 +13,7 @@
 
 #define PROGRAM "Proton Caller"
 #define AUTHOR "Avery Murray"
-#define VERSION "1.3.2"
+#define VERSION "git140"
 #define STEAM "STEAM_COMPAT_DATA_PATH"
 
 

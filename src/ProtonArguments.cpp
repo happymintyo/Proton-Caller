@@ -6,6 +6,7 @@
 #include "ProtonCaller.h"
 #include "ProtonArguments.h"
 #include "ProtonSetup.h"
+#include "ProtonDefaults.h"
 #include <cstdio>
 #include <cstdlib>
 
@@ -96,6 +97,16 @@ const char *findEnv(int rtn) {
         std::cout << COMMON << " located at: " << cCommon << "\n";
         return cCommon;
     } else {
+        std::cout << "Using default\n";
+        bool ret; ret = commonDefault();
+        if (ret) {
+            const char *cCommon;
+            std::string _home_two = getenv("HOME");
+            std::string def_common = "/.steam/steam/steamapps/common/";
+            std::string whole = _home_two + def_common;
+            cCommon = whole.c_str();
+            return cCommon;
+        }
         setup(COMMON);
         exit(EXIT_FAILURE);
     }
