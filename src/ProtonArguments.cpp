@@ -105,6 +105,7 @@ const char *findEnv(int rtn) {
             std::string def_common = "/.steam/steam/steamapps/common/";
             std::string whole = _home_two + def_common;
             cCommon = whole.c_str();
+            std::cout << "Warning: using default common path. Please read '--setup' to stop this message.\n";
             return cCommon;
         }
         setup(COMMON);
