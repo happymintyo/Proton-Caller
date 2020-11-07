@@ -10,11 +10,22 @@ proton-call \- A proton game launcher
 will launch any Windows program using Proton as long as you have proton installed and it supports the program.
 .SH OPTIONS
 .TP
-[-c, -h][5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]
+[-c, -h, -v, --setup][5.13, 5, 5.0, 4.11, 4.3, 3.16, 3.7][./*.exe]
+
+   -c           Runs custom mode
+
+   -h           View help
+
+   -v           View version info
+
+   --setup      View setup info
+
 
 proton-call 5 foo.exe
 
 proton-call -c '/Proton 5.0/' foo.exe
+
+proton-call -c /Proton\ 5.0/ foo.exe
 
 Working directory must be the same as the Windows executable.
 Proton Caller will fail without arguments.

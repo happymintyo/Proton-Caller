@@ -7,6 +7,7 @@
 #include "ProtonArguments.h"
 #include "ProtonSetup.h"
 #include "ProtonDefaults.h"
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 
@@ -114,17 +115,5 @@ const char *findEnv(int rtn) {
 }
 
 void helpMsg() {
-    FILE *fFile;
-    fFile = fopen("/usr/share/proton-caller/HELP", "r");
-    if (fFile == nullptr) {
-        std::cout << "Error opening help message.\n";
-        exit(EXIT_FAILURE);
-    }
-    char c;
-    c = fgetc(fFile);
-    while (c != EOF) {
-        std::cout << c;
-        c = fgetc(fFile);
-    }
-    fclose(fFile);
+    execl("/usr/bin/man", "man", "proton-call", NULL);
 }
