@@ -32,8 +32,6 @@ void Args(ProtonCaller &proObj, int argc, char *argv[]) {
 void argsMain(int argc, char *argv[]) {
     if (argv[1] != nullptr) {
         proArgs._argv1 = argv[1];
-    } else if (argv[2] != nullptr) {
-        proArgs._argv2 = argv[2];
     } else if (argv[3] != nullptr) {
         proArgs._argv3 = argv[3];
     } else {

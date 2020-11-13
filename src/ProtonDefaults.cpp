@@ -9,10 +9,9 @@
 bool commonDefault() {
     std::string _home_ = getenv("HOME");
     std::string def = _home_ + "/.steam/steam/steamapps/common/";
-    char commonquest[200];
-    if (std::filesystem::is_directory(commonquest)) {
+    char common[200];
+    if (std::filesystem::is_directory(common)) {
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
