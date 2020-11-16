@@ -90,26 +90,16 @@ const char *findEnv(int rtn) {
         std::cout << STEAM << " must be added to your environment. Proton Will not run without it.\n";
         exit(EXIT_FAILURE);
     }
+
     if (rtn == 1) { return nullptr; }
+
     if (getenv(COMMON) != nullptr) {
         const char *cCommon = getenv(COMMON);
         std::cout << COMMON << " located at: " << cCommon << "\n";
         return cCommon;
-    } else {
-        std::cout << "Using default\n";
-        bool ret; ret = commonDefault();
-        if (ret) {
-            const char *cCommon;
-            std::string _home_two = getenv("HOME");
-            std::string def_common = "/.steam/steam/steamapps/common/";
-            std::string whole = _home_two + def_common;
-            cCommon = whole.c_str();
-            std::cout << "Warning: using default common path. Please read '--setup' to stop this message.\n";
-            return cCommon;
-        }
-        setup(COMMON);
-        exit(EXIT_FAILURE);
     }
+    setup(COMMON);
+    exit(EXIT_FAILURE);
 }
 
 void helpMsg() {

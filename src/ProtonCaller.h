@@ -10,6 +10,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <filesystem>
+#include <wait.h>
 
 #define PROGRAM "Proton Caller"
 #define AUTHOR "Avery Murray"
@@ -53,8 +54,9 @@ public:
         char cmd[100], win[50];
         strcpy(win, program.c_str());
         strcpy(cmd, exec_.c_str());
+        std::cout << "Starting Proton…\n";
         execl(cmd, "proton", "run", win, NULL);
-    }
+        }
 };
 
 #endif //PROTON_CALLER_PROTONCALLER_H
