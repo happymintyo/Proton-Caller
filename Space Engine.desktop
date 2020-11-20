@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Space Engine
+Comment=Space Engine
+Exec=prime-run proton-call 5.13 SpaceEngine.exe
+Icon=kstars_supernovae
+Path=/home/avery/Documents/games/SpaceEngine/system
+Terminal=false
+StartupNotify=false

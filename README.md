@@ -1,5 +1,5 @@
 # Proton-Caller
-A program to automatically run programs using Steam's Proton
+Run any Windows program through [Valve's Proton](https://github.com/ValveSoftware/Proton).
 
 [Usage](https://github.com/caverym/Proton-Caller#usage)
 
@@ -46,22 +46,15 @@ sudo make install
 ```
 
 ### Space Engine example:
-   To make a .desktop launcher create a shell script such as `/usr/bin/SpaceEngine`:
-   ```
-   #!/usr/bin/env zsh
-   export STEAM_COMPAT_DATA_PATH=/home/avery/proton
-   cd /home/avery/proton/pfx/drive_c/SpaceEngine/system
-   proton-call 5 SpaceEngine.exe
-   ```
-   Point it at the executable, then run it using proton-call.
-   ```
-   chmod +x /usr/bin/SpaceEngine
-   ```
+   Make a .desktop launcher. [example file](Space%20Engine.desktop)
    
-   Then create a .desktop file which points at `/usr/bin/SpaceEngine`
    ```
-   Exec=SpaceEngine
-   Terminal=false
-   Type=Application
-   Categories=Game;;
+[Desktop Entry]
+Type=Application
+Name=Space Engine
+Comment=Space Engine
+Exec=proton-call 5.13 SpaceEngine.exe
+Path=/home/avery/Documents/games/SpaceEngine/system
+Terminal=false
+StartupNotify=false
    ```
