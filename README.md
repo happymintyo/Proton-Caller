@@ -1,6 +1,8 @@
 # Proton-Caller
 Run any Windows program through [Valve's Proton](https://github.com/ValveSoftware/Proton).
 
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/caverym/Proton-Caller.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/caverym/Proton-Caller/context:cpp)
+
 [Usage](https://github.com/caverym/Proton-Caller#usage)
 
 Please create an issue if you want added features or have an issue.
