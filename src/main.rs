@@ -37,12 +37,23 @@ fn missing_args() {
     println!("Try 'proton-call --help' for more information");
 }
 
+fn setup() {
+    match env::var("STEAM_COMPAT_DATA_PATH") {
+        Ok(val) => println!("STEAM_COMPAT_DATA_PATH =   {}", val),
+        Err(_e) => {
+            println!("'export STEAM_COMPAT_DATA_PATH=<path to steamapps/common>'");
+        }
+    }
+    match env::var("PC_COMMON") {
+        Ok(val) => println!("PC_COMMON  =   {}", val),
+        Err(_e) => println!("'export PC_COMMON=$HOME/proton'"),
+    }
+}
+
 fn proton(args: Vec<String>) {
     let version: String;
     let mut _program: String = String::new();
     let mut _path: String = String::new();
-    let mut custom: bool = false;
-
     let common: String;
 
     match args[1].as_str() {
@@ -54,17 +65,22 @@ fn proton(args: Vec<String>) {
             pc_version();
             return;
         }
+        "--setup" => {
+            setup();
+            return;
+        }
         "-c" => {
-            custom = true;
+            println!("Custom mode enabled");
             _path = args[2].to_string();
             _path.push_str("/proton");
             _program = args[3].to_string();
         }
         "--custom" => {
-            custom = true;
+            println!("Custom mode enabled");
             _path = args[2].to_string();
             _path.push_str("/proton");
             _program = args[3].to_string();
+
         }
         _ => {
             if if_arg(args[1].to_string()) == true {
@@ -75,6 +91,7 @@ fn proton(args: Vec<String>) {
                 Ok(val) => common = val,
                 Err(_e) => {
                     println!("PC_COMMON variable does not exist");
+                    setup();
                     return;
                 }
             }
@@ -85,9 +102,10 @@ fn proton(args: Vec<String>) {
             _path.push_str("/Proton ");
             _path.push_str(version.as_str());
             _path.push_str("/proton");
+            println!("Proton:       {}", version);
         }
     }
-    println!("custom mode:  {}", custom);
+
     println!("program:      {}\n", _program);
     println!("________Proton________");
 
@@ -103,10 +121,10 @@ fn proton(args: Vec<String>) {
     assert!(ecode.success());
 
     println!("______________________\n");
+    println!("Proton exited");
 }
 
 fn main() {
-    println!("Proton Caller 2.0");
     let args: Vec<String> = env::args().collect();
 
     match args.len() {
@@ -124,6 +142,4 @@ fn main() {
             println!("Try 'proton-call --help' for more information");
         }
     }
-
-    println!("Proton exited");
 }

@@ -1,0 +1,45 @@
+# TODO
+
+This is a list of To-Do actions for continual development or Proton Caller.
+If you believe features should be added to Proton Caller in the future, create
+a pull request and add it to this list, or an issue in the same format. They 
+will be reviewed and added to this list if they are valid features to have.
+
+## How to contribute to the list
+Keep each list item in an organized layout:
+
+    X. Simple name for features
+        A. Things included within the feature
+        ...
+
+    An explination for why the feature is needed, what it will be used for and
+    any ideas on how to implement the feature.
+
+
+(and two empty lines below)
+
+Any feature requests that do not follow this layout will not be reviewed.
+Completed actions will be added to a separete file (COMPLETED) and explained
+in the release (and commit) they were added in.
+
+
+1.  Check for executable existance
+        A. Check for Proton
+        B. Check for Windows executable
+    
+    This would keep the program from executing programs that do not exist on
+    the drive.
+
+
+2.  Pass arguments to executable
+        A. Pass arguments to Windows executable
+        B. Dynamically change the amount of arguments passed to allow this 
+        feature to be added.
+
+    Make it possible to launch programs which need specific command line
+    arguments to execute using Proton Caller. This is needed because many games
+    and game launchers DO NOT run without spcial arguments. Some may want to
+    use this to also force games to run in different graphics APIs 
+    (OpenGL, Vulkan).
+
+
