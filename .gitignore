@@ -13,3 +13,8 @@ cmake-build-debug
 cmake-build-debug-coverage
 pc
 proton-call
+
+
+# Added by cargo
+
+/target
