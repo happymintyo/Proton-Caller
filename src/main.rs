@@ -5,13 +5,11 @@ fn if_arg(the_arg: String) -> bool {
     let arg: Vec<char> = the_arg.chars().collect();
     if arg[0] == '-' {
         if arg[1] == 'c' {
-            return false;
+            return true;
         }
-        println!("proton-call: invalide option -- '{}'", arg[1]);
-        println!("Try 'proton-call --help' for more information");
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 fn help() {
@@ -41,7 +39,7 @@ fn setup() {
     match env::var("STEAM_COMPAT_DATA_PATH") {
         Ok(val) => println!("STEAM_COMPAT_DATA_PATH =   {}", val),
         Err(_e) => {
-            println!("'export STEAM_COMPAT_DATA_PATH=<path to steamapps/common>'");
+            println!("'export STEAM_COMPAT_DATA_PATH=<path to common'");
         }
     }
     match env::var("PC_COMMON") {
@@ -70,7 +68,7 @@ fn execute_proton(path: String, program: String) {
 
 fn proton(args: Vec<String>) {
     let version: String;
-    let mut _program: String = String::new();
+    let program;
     let mut _path: String = String::new();
     let common: String;
     // let _argus: Vec<String>; setup for TODO #2
@@ -92,19 +90,17 @@ fn proton(args: Vec<String>) {
             println!("Custom mode enabled");
             _path = args[2].to_string();
             _path.push_str("/proton");
-            _program = args[3].to_string();
+            program = args[3].to_string();
         }
         "--custom" => {
             println!("Custom mode enabled");
             _path = args[2].to_string();
             _path.push_str("/proton");
-            _program = args[3].to_string();
+            program = args[3].to_string();
 
         }
         _ => {
-            if if_arg(args[1].to_string()) == true {
-                return;
-            }
+            assert!(if_arg(args[1].to_string()), "invalid option");
 
             match env::var("PC_COMMON") {
                 Ok(val) => common = val,
@@ -116,7 +112,7 @@ fn proton(args: Vec<String>) {
             }
 
             version = args[1].to_string();
-            _program = args[2].to_string();
+            program = args[2].to_string();
             _path = common;
             _path.push_str("/Proton ");
             _path.push_str(version.as_str());
@@ -124,9 +120,13 @@ fn proton(args: Vec<String>) {
             println!("Proton:       {}", version);
         }
     }
+    println!("program:      {}\n", program);
 
-    println!("program:      {}\n", _program);
-    execute_proton(_path, _program);
+    assert!(std::path::Path::new(&program).exists(),
+    "invalid program or directory");
+    assert!(std::path::Path::new(&_path).exists(),
+    "invalid version or directory");
+    execute_proton(_path, program);
 }
 
 fn main() {
@@ -140,9 +140,7 @@ fn main() {
                 "--version" => pc_version(),
                 "--setup" => setup(),
                 "-c" => missing_args(),
-                _ => if if_arg(args[1].to_string()) == true {
-                    return;
-                },
+                _ => assert!(if_arg(args[1].to_string()), "invalid option"),
             }
         }
         3 => proton(args),

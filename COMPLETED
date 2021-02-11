@@ -1,0 +1,6 @@
+1.  Check for executable existance
+        A. Check for Proton
+        B. Check for Windows executable
+    
+    This would keep the program from executing programs that do not exist on
+    the drive.

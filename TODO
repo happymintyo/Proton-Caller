@@ -23,15 +23,7 @@ Completed actions will be added to a separete file (COMPLETED) and explained
 in the release (and commit) they were added in.
 
 
-1.  Check for executable existance
-        A. Check for Proton
-        B. Check for Windows executable
-    
-    This would keep the program from executing programs that do not exist on
-    the drive.
-
-
-2.  Pass arguments to executable
+1.  Pass arguments to executable
         A. Pass arguments to Windows executable
         B. Dynamically change the amount of arguments passed to allow this 
         feature to be added.
@@ -41,5 +33,3 @@ in the release (and commit) they were added in.
     and game launchers DO NOT run without spcial arguments. Some may want to
     use this to also force games to run in different graphics APIs 
     (OpenGL, Vulkan).
-
-
