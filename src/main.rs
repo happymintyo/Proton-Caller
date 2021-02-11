@@ -50,11 +50,30 @@ fn setup() {
     }
 }
 
+fn execute_proton(path: String, program: String) {
+    println!("________Proton________");
+
+    let mut child = Command::new(path)
+        .arg("run")
+        .arg(program)
+        .spawn()
+        .expect("failed to launch Proton");
+    
+    let ecode = child.wait()
+        .expect("failed to wait for Proton");
+    
+    assert!(ecode.success());
+
+    println!("______________________\n");
+    println!("Proton exited");
+}
+
 fn proton(args: Vec<String>) {
     let version: String;
     let mut _program: String = String::new();
     let mut _path: String = String::new();
     let common: String;
+    // let _argus: Vec<String>; setup for TODO #2
 
     match args[1].as_str() {
         "--help" => {
@@ -107,21 +126,7 @@ fn proton(args: Vec<String>) {
     }
 
     println!("program:      {}\n", _program);
-    println!("________Proton________");
-
-    let mut child = Command::new(_path)
-        .arg("run")
-        .arg(_program)
-        .spawn()
-        .expect("failed to launch Proton");
-    
-    let ecode = child.wait()
-        .expect("failed to wait for Proton");
-    
-    assert!(ecode.success());
-
-    println!("______________________\n");
-    println!("Proton exited");
+    execute_proton(_path, _program);
 }
 
 fn main() {
@@ -130,10 +135,15 @@ fn main() {
     match args.len() {
         1 => missing_args(),
         2 => {
-            if if_arg(args[1].to_string()) == true {
-                return;
+            match args[1].as_str() {
+                "--help" => help(),
+                "--version" => pc_version(),
+                "--setup" => setup(),
+                "-c" => missing_args(),
+                _ => if if_arg(args[1].to_string()) == true {
+                    return;
+                },
             }
-            missing_args();
         }
         3 => proton(args),
         4 => proton(args),
