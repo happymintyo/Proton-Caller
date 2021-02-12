@@ -4,3 +4,15 @@
     
     This would keep the program from executing programs that do not exist on
     the drive.
+
+
+1.  Pass arguments to executable
+        A. Pass arguments to Windows executable
+        B. Dynamically change the amount of arguments passed to allow this 
+        feature to be added.
+
+    Make it possible to launch programs which need specific command line
+    arguments to execute using Proton Caller. This is needed because many games
+    and game launchers DO NOT run without spcial arguments. Some may want to
+    use this to also force games to run in different graphics APIs 
+    (OpenGL, Vulkan).

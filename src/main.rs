@@ -1,9 +1,12 @@
 use std::env;
 use std::process::Command;
+extern crate shell_words;
 
 struct Proton {
     program: String,
     path: String,
+    pass: String,
+    extra: bool,
 }
 
 // logic
@@ -20,17 +23,30 @@ fn if_arg(the_arg: String) -> bool {
 
 fn execute_proton(p: Proton) {
     println!("________Proton________");
+    match p.extra {
+        true => {
+            let mut child = Command::new(p.path)
+                .arg("run")
+                .arg(p.program)
+                .arg(p.pass)
+                .spawn()
+                .expect("failed to launch Proton");
+            let ecode = child.wait()
+                .expect("failed to wait for Proton");
+            assert!(ecode.success());
+        }
 
-    let mut child = Command::new(p.path)
-        .arg("run")
-        .arg(p.program)
-        .spawn()
-        .expect("failed to launch Proton");
-    
-    let ecode = child.wait()
-        .expect("failed to wait for Proton");
-    
-    assert!(ecode.success());
+        false => {
+            let mut child = Command::new(p.path)
+                .arg("run")
+                .arg(p.program)
+                .spawn()
+                .expect("failed to launch Proton");
+            let ecode = child.wait()
+                    .expect("failed to wait for Proton");
+            assert!(ecode.success());
+        }
+    }
 
     println!("______________________\n");
     println!("Proton exited");
@@ -42,15 +58,27 @@ fn custom_mode(args: Vec<String>) -> Proton {
 
     _path = args[2].to_string();
     _path.push_str("/proton");
+
+    if args.len() > 3 {
+        let p = Proton {
+            program: args[3].to_string(),
+            path: _path,
+            pass: args[4].to_string(),
+            extra: true,
+        };
+        return p;
+    }
+
     let p = Proton {
         program: args[3].to_string(),
         path: _path,
+        pass: String::new(),
+        extra: false,
     };
     return p;
 }
 
 fn normal_mode(args: Vec<String>) -> Proton {
-
     let version: String;
     let program;
     let mut _path: String = String::new();
@@ -75,9 +103,21 @@ fn normal_mode(args: Vec<String>) -> Proton {
     _path.push_str("/proton");
     println!("Proton:       {}", version);
 
+    if args.len() == 4 {
+        let pr = Proton {
+            program: program,
+            path: _path,
+            pass: args[3].to_string(),
+            extra: true,
+        };
+        return pr;
+    }
+
     let pr = Proton {
         program: program,
         path: _path,
+        pass: String::new(),
+        extra: false,
     };
     return pr;
 }

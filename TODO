@@ -21,15 +21,3 @@ Keep each list item in an organized layout:
 Any feature requests that do not follow this layout will not be reviewed.
 Completed actions will be added to a separete file (COMPLETED) and explained
 in the release (and commit) they were added in.
-
-
-1.  Pass arguments to executable
-        A. Pass arguments to Windows executable
-        B. Dynamically change the amount of arguments passed to allow this 
-        feature to be added.
-
-    Make it possible to launch programs which need specific command line
-    arguments to execute using Proton Caller. This is needed because many games
-    and game launchers DO NOT run without spcial arguments. Some may want to
-    use this to also force games to run in different graphics APIs 
-    (OpenGL, Vulkan).
