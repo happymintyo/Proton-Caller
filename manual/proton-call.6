@@ -14,18 +14,15 @@ will launch any Windows program using Proton as long as you have proton installe
 
    -c           Runs custom mode
 
-   -h           View help
+   --help           View help
 
-   -v           View version info
+   --version           View version info
 
    --setup      View setup info
 
 
-proton-call 5 foo.exe
+proton-call 5.13 foo.exe
 
 proton-call -c '/Proton 5.0/' foo.exe
 
 proton-call -c /Proton\ 5.0/ foo.exe
-
-Working directory must be the same as the Windows executable.
-Proton Caller will fail without arguments.

@@ -1,6 +1,12 @@
 use std::env;
 use std::process::Command;
 
+struct Proton {
+    program: String,
+    path: String,
+}
+
+// logic
 fn if_arg(the_arg: String) -> bool {
     let arg: Vec<char> = the_arg.chars().collect();
     if arg[0] == '-' {
@@ -12,6 +18,123 @@ fn if_arg(the_arg: String) -> bool {
     return true;
 }
 
+fn execute_proton(p: Proton) {
+    println!("________Proton________");
+
+    let mut child = Command::new(p.path)
+        .arg("run")
+        .arg(p.program)
+        .spawn()
+        .expect("failed to launch Proton");
+    
+    let ecode = child.wait()
+        .expect("failed to wait for Proton");
+    
+    assert!(ecode.success());
+
+    println!("______________________\n");
+    println!("Proton exited");
+}
+
+fn custom_mode(args: Vec<String>) -> Proton {
+    println!("custom mode enabled");
+    let mut _path: String = String::new();
+
+    _path = args[2].to_string();
+    _path.push_str("/proton");
+    let p = Proton {
+        program: args[3].to_string(),
+        path: _path,
+    };
+    return p;
+}
+
+fn normal_mode(args: Vec<String>) -> Proton {
+
+    let version: String;
+    let program;
+    let mut _path: String = String::new();
+    let common: String;
+    let _p: Proton;
+
+    assert!(if_arg(args[1].to_string()), "invalid option");
+
+    match env::var("PC_COMMON") {
+        Ok(val) => common = val,
+        _ => {
+            setup();
+            std::process::exit(1);
+        }
+    }
+
+    version = args[1].to_string();
+    program = args[2].to_string();
+    _path = common;
+    _path.push_str("/Proton ");
+    _path.push_str(version.as_str());
+    _path.push_str("/proton");
+    println!("Proton:       {}", version);
+
+    let pr = Proton {
+        program: program,
+        path: _path,
+    };
+    return pr;
+}
+
+fn proton(args: Vec<String>) {
+    let p: Proton;
+
+    match args[1].as_str() {
+        "--help" => {
+            help();
+            return;
+        }
+        "--version" => {
+            pc_version();
+            return;
+        }
+        "--setup" => {
+            setup();
+            return;
+        }
+        "-c" =>  p = custom_mode(args),
+        "--custom" => p = custom_mode(args),
+        _ => p = normal_mode(args),
+    }
+
+    println!("program:      {}\n", p.program);
+    assert!(std::path::Path::new(&p.program).exists(),
+    "invalid program or directory");
+    assert!(std::path::Path::new(&p.path).exists(),
+    "invalid version or directory");
+    execute_proton(p);
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    match args.len() {
+        1 => missing_args(),
+        2 => {
+            match args[1].as_str() {
+                "--help" => help(),
+                "--version" => pc_version(),
+                "--setup" => setup(),
+                "-c" => missing_args(),
+                _ => assert!(if_arg(args[1].to_string()), "invalid option"),
+            }
+        }
+        3 => proton(args),
+        4 => proton(args),
+        _ => {
+            println!("proton-call: too many arguments");
+            println!("Try 'proton-call --help' for more information");
+        }
+    }
+}
+
+// messaging
 fn help() {
     println!("Usage: proton-all VERSION PROGRAM");
     println!("   or: basename OPTION PATH PROGRAM");
@@ -45,109 +168,5 @@ fn setup() {
     match env::var("PC_COMMON") {
         Ok(val) => println!("PC_COMMON  =   {}", val),
         Err(_e) => println!("'export PC_COMMON=$HOME/proton'"),
-    }
-}
-
-fn execute_proton(path: String, program: String) {
-    println!("________Proton________");
-
-    let mut child = Command::new(path)
-        .arg("run")
-        .arg(program)
-        .spawn()
-        .expect("failed to launch Proton");
-    
-    let ecode = child.wait()
-        .expect("failed to wait for Proton");
-    
-    assert!(ecode.success());
-
-    println!("______________________\n");
-    println!("Proton exited");
-}
-
-fn proton(args: Vec<String>) {
-    let version: String;
-    let program;
-    let mut _path: String = String::new();
-    let common: String;
-    // let _argus: Vec<String>; setup for TODO #2
-
-    match args[1].as_str() {
-        "--help" => {
-            help();
-            return;
-        }
-        "--version" => {
-            pc_version();
-            return;
-        }
-        "--setup" => {
-            setup();
-            return;
-        }
-        "-c" => {
-            println!("Custom mode enabled");
-            _path = args[2].to_string();
-            _path.push_str("/proton");
-            program = args[3].to_string();
-        }
-        "--custom" => {
-            println!("Custom mode enabled");
-            _path = args[2].to_string();
-            _path.push_str("/proton");
-            program = args[3].to_string();
-
-        }
-        _ => {
-            assert!(if_arg(args[1].to_string()), "invalid option");
-
-            match env::var("PC_COMMON") {
-                Ok(val) => common = val,
-                Err(_e) => {
-                    println!("PC_COMMON variable does not exist");
-                    setup();
-                    return;
-                }
-            }
-
-            version = args[1].to_string();
-            program = args[2].to_string();
-            _path = common;
-            _path.push_str("/Proton ");
-            _path.push_str(version.as_str());
-            _path.push_str("/proton");
-            println!("Proton:       {}", version);
-        }
-    }
-    println!("program:      {}\n", program);
-
-    assert!(std::path::Path::new(&program).exists(),
-    "invalid program or directory");
-    assert!(std::path::Path::new(&_path).exists(),
-    "invalid version or directory");
-    execute_proton(_path, program);
-}
-
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    match args.len() {
-        1 => missing_args(),
-        2 => {
-            match args[1].as_str() {
-                "--help" => help(),
-                "--version" => pc_version(),
-                "--setup" => setup(),
-                "-c" => missing_args(),
-                _ => assert!(if_arg(args[1].to_string()), "invalid option"),
-            }
-        }
-        3 => proton(args),
-        4 => proton(args),
-        _ => {
-            println!("proton-call: too many arguments");
-            println!("Try 'proton-call --help' for more information");
-        }
     }
 }
