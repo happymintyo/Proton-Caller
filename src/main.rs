@@ -1,6 +1,5 @@
 use std::env;
 use std::process::Command;
-extern crate shell_words;
 
 struct Proton {
     program: String,
@@ -35,7 +34,6 @@ fn execute_proton(p: Proton) {
                 .expect("failed to wait for Proton");
             assert!(ecode.success());
         }
-
         false => {
             let mut child = Command::new(p.path)
                 .arg("run")
@@ -47,7 +45,6 @@ fn execute_proton(p: Proton) {
             assert!(ecode.success());
         }
     }
-
     println!("______________________\n");
     println!("Proton exited");
 }
@@ -59,7 +56,7 @@ fn custom_mode(args: Vec<String>) -> Proton {
     _path = args[2].to_string();
     _path.push_str("/proton");
 
-    if args.len() > 3 {
+    if args.len() == 5 {
         let p = Proton {
             program: args[3].to_string(),
             path: _path,
@@ -85,7 +82,12 @@ fn normal_mode(args: Vec<String>) -> Proton {
     let common: String;
     let _p: Proton;
 
-    assert!(if_arg(args[1].to_string()), "invalid option");
+    debug_assert!(if_arg(args[1].to_string()), "invalid option");
+    if if_arg(args[1].to_string()) == false {
+        println!("Invalid option: '{}'", args[1]);
+        println!("Try 'proton-call --help'");
+        std::process::exit(1);
+    }
 
     match env::var("PC_COMMON") {
         Ok(val) => common = val,
@@ -144,10 +146,18 @@ fn proton(args: Vec<String>) {
     }
 
     println!("program:      {}\n", p.program);
-    assert!(std::path::Path::new(&p.program).exists(),
+    debug_assert!(std::path::Path::new(&p.program).exists(),
     "invalid program or directory");
-    assert!(std::path::Path::new(&p.path).exists(),
+    debug_assert!(std::path::Path::new(&p.path).exists(),
     "invalid version or directory");
+    if std::path::Path::new(&p.program).exists() == false {
+        println!("Program executable {} does not exist", p.program);
+        return;
+    }
+    if std::path::Path::new(&p.path).exists() == false {
+        println!("Invalid Proton version or path");
+        return;
+    }
     execute_proton(p);
 }
 
@@ -162,7 +172,14 @@ fn main() {
                 "--version" => pc_version(),
                 "--setup" => setup(),
                 "-c" => missing_args(),
-                _ => assert!(if_arg(args[1].to_string()), "invalid option"),
+                _ => {
+                    debug_assert!(if_arg(args[1].to_string()), "invalid option");
+                    if if_arg(args[1].to_string()) == false {
+                        println!("Invalid option: '{}'", args[1]);
+                        println!("Try 'proton-call --help'");
+                    }
+                    return;
+                }
             }
         }
         3 => proton(args),
@@ -183,7 +200,6 @@ fn help() {
     println!("  -c, --custom PATH   use proton from PATH");
     println!("  --help              display this help message");
     println!("  --version           display version information\n");
-    pc_version();
 }
 
 fn pc_version() {
