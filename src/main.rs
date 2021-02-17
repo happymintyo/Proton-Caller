@@ -1,6 +1,8 @@
 use std::env;
 use std::process::Command;
 
+use env::VarError;
+
 struct Proton {
     program: String,
     path: String,
@@ -52,48 +54,48 @@ fn execute_proton(p: Proton) {
 fn custom_mode(args: Vec<String>) -> Proton {
     println!("custom mode enabled");
     let mut _path: String = String::new();
+    let p: Proton;
 
     _path = args[2].to_string();
     _path.push_str("/proton");
 
     if args.len() == 5 {
-        let p = Proton {
+        p = Proton {
             program: args[3].to_string(),
             path: _path,
             pass: args[4].to_string(),
             extra: true,
         };
-        return p;
+    } else {
+        p = Proton {
+            program: args[3].to_string(),
+            path: _path,
+            pass: String::new(),
+            extra: false,
+        }
     }
-
-    let p = Proton {
-        program: args[3].to_string(),
-        path: _path,
-        pass: String::new(),
-        extra: false,
-    };
     return p;
 }
 
-fn normal_mode(args: Vec<String>) -> Proton {
+fn normal_mode(args: Vec<String>) -> Result<Proton, VarError> {
     let version: String;
     let program;
     let mut _path: String = String::new();
     let common: String;
-    let _p: Proton;
+    let pr: Proton;
 
     debug_assert!(if_arg(args[1].to_string()), "invalid option");
     if if_arg(args[1].to_string()) == false {
         println!("Invalid option: '{}'", args[1]);
         println!("Try 'proton-call --help'");
-        std::process::exit(1);
+        return Err(VarError::NotPresent);
     }
 
     match env::var("PC_COMMON") {
         Ok(val) => common = val,
-        _ => {
+        Err(_e) => {
             setup();
-            std::process::exit(1);
+            return Err(VarError::NotPresent);
         }
     }
 
@@ -106,22 +108,21 @@ fn normal_mode(args: Vec<String>) -> Proton {
     println!("Proton:       {}", version);
 
     if args.len() == 4 {
-        let pr = Proton {
+        pr = Proton {
             program: program,
             path: _path,
             pass: args[3].to_string(),
             extra: true,
         };
-        return pr;
-    }
-
-    let pr = Proton {
+    } else {
+        pr = Proton {
         program: program,
         path: _path,
         pass: String::new(),
         extra: false,
-    };
-    return pr;
+        };
+    }
+    Ok(pr)
 }
 
 fn proton(args: Vec<String>) {
@@ -142,7 +143,15 @@ fn proton(args: Vec<String>) {
         }
         "-c" =>  p = custom_mode(args),
         "--custom" => p = custom_mode(args),
-        _ => p = normal_mode(args),
+        _ => {
+            match normal_mode(args) {
+                Ok(val) => p = val,
+                Err(_e) => {
+                    println!("error running Proton");
+                    return;
+                },
+            }
+        }
     }
 
     println!("program:      {}\n", p.program);
@@ -193,7 +202,7 @@ fn main() {
 
 // messaging
 fn help() {
-    println!("Usage: proton-all VERSION PROGRAM");
+    println!("Usage: proton-call VERSION PROGRAM");
     println!("   or: basename OPTION PATH PROGRAM");
     println!("Execute PROGRAM with Proton VERSION");
     println!("If specified, run proton PATH\n");
@@ -203,7 +212,7 @@ fn help() {
 }
 
 fn pc_version() {
-    println!("  proton-caller 2.0 Copyright (C) 2021  Avery Murray");
+    println!("  proton-caller 2.0.1 Copyright (C) 2021  Avery Murray");
     println!("This program comes with ABSOLUTELY NO WARRANTY.");
     println!("This is free software, and you are welcome to redistribute it");
     println!("under certain conditions.")
@@ -223,6 +232,8 @@ fn setup() {
     }
     match env::var("PC_COMMON") {
         Ok(val) => println!("PC_COMMON  =   {}", val),
-        Err(_e) => println!("'export PC_COMMON=$HOME/proton'"),
+        Err(_e) => {
+            println!("'export PC_COMMON=$HOME/proton'");
+        }
     }
 }
