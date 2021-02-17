@@ -1,8 +1,5 @@
 use std::env;
 use std::process::Command;
-
-use env::VarError;
-
 struct Proton {
     program: String,
     path: String,
@@ -11,15 +8,17 @@ struct Proton {
 }
 
 // logic
-fn if_arg(the_arg: String) -> bool {
+fn if_arg(the_arg: String) -> Option<()> {
     let arg: Vec<char> = the_arg.chars().collect();
     if arg[0] == '-' {
         if arg[1] == 'c' {
-            return true;
+            return Some(());
         }
-        return false;
+        println!("proton-call: invalid argument: '{}'", the_arg);
+        println!("Try 'proton-call --help");
+        return None;
     }
-    return true;
+    Some(())
 }
 
 fn execute_proton(p: Proton) {
@@ -72,30 +71,23 @@ fn custom_mode(args: Vec<String>) -> Proton {
             path: _path,
             pass: String::new(),
             extra: false,
-        }
+        };
     }
-    return p;
+    p
 }
 
-fn normal_mode(args: Vec<String>) -> Result<Proton, VarError> {
+fn normal_mode(args: Vec<String>) -> Option<Proton> {
     let version: String;
     let program;
     let mut _path: String = String::new();
     let common: String;
     let pr: Proton;
 
-    debug_assert!(if_arg(args[1].to_string()), "invalid option");
-    if if_arg(args[1].to_string()) == false {
-        println!("Invalid option: '{}'", args[1]);
-        println!("Try 'proton-call --help'");
-        return Err(VarError::NotPresent);
-    }
-
     match env::var("PC_COMMON") {
         Ok(val) => common = val,
         Err(_e) => {
             setup();
-            return Err(VarError::NotPresent);
+            return None;
         }
     }
 
@@ -122,11 +114,16 @@ fn normal_mode(args: Vec<String>) -> Result<Proton, VarError> {
         extra: false,
         };
     }
-    Ok(pr)
+    Some(pr)
 }
 
 fn proton(args: Vec<String>) {
     let p: Proton;
+
+    match if_arg(args[1].to_string()) {
+        None => return,
+        _ => (),
+    }
 
     match args[1].as_str() {
         "--help" => {
@@ -145,11 +142,8 @@ fn proton(args: Vec<String>) {
         "--custom" => p = custom_mode(args),
         _ => {
             match normal_mode(args) {
-                Ok(val) => p = val,
-                Err(_e) => {
-                    println!("error running Proton");
-                    return;
-                },
+                None => return,
+                Some(_struct) => p = _struct,
             }
         }
     }
@@ -182,12 +176,8 @@ fn main() {
                 "--setup" => setup(),
                 "-c" => missing_args(),
                 _ => {
-                    debug_assert!(if_arg(args[1].to_string()), "invalid option");
-                    if if_arg(args[1].to_string()) == false {
-                        println!("Invalid option: '{}'", args[1]);
-                        println!("Try 'proton-call --help'");
-                    }
-                    return;
+                    println!("proton-call: invalid argument: '{}'", args[1]);
+                    println!("Try 'proton-call --help'");
                 }
             }
         }
@@ -196,7 +186,7 @@ fn main() {
         5 => proton(args),
         _ => {
             println!("proton-call: too many arguments");
-            println!("Try 'proton-call --help' for more information");
+            println!("Try 'proton-call --help");
         }
     }
 }
@@ -213,7 +203,7 @@ fn help() {
 }
 
 fn pc_version() {
-    println!("  proton-caller 2.0.1 Copyright (C) 2021  Avery Murray");
+    println!("  proton-caller 2.0.2 Copyright (C) 2021  Avery Murray");
     println!("This program comes with ABSOLUTELY NO WARRANTY.");
     println!("This is free software, and you are welcome to redistribute it");
     println!("under certain conditions.")
