@@ -193,6 +193,7 @@ fn main() {
         }
         3 => proton(args),
         4 => proton(args),
+        5 => proton(args),
         _ => {
             println!("proton-call: too many arguments");
             println!("Try 'proton-call --help' for more information");
