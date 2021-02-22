@@ -1,11 +1,5 @@
 use std::env;
-use std::process::Command;
-struct Proton {
-    program: String,
-    path: String,
-    pass: String,
-    extra: bool,
-}
+mod proton;
 
 // logic
 fn if_arg(the_arg: String) -> Option<()> {
@@ -21,30 +15,18 @@ fn if_arg(the_arg: String) -> Option<()> {
     Some(())
 }
 
+/*/
 fn execute_proton(p: Proton) {
+    println!("{:?}", p.arguments);
     println!("________Proton________");
-    match p.extra {
-        true => {
-            let mut child = Command::new(p.path)
-                .arg("run")
-                .arg(p.program)
-                .arg(p.pass)
-                .spawn()
-                .expect("failed to launch Proton");
-            let ecode = child.wait()
-                .expect("failed to wait for Proton");
-            assert!(ecode.success());
-        }
-        false => {
-            let mut child = Command::new(p.path)
-                .arg("run")
-                .arg(p.program)
-                .spawn()
-                .expect("failed to launch Proton");
-            let ecode = child.wait()
-                    .expect("failed to wait for Proton");
-            assert!(ecode.success());
-        }
+
+    let mut child = Command::new(p.path)
+        .args(p.arguments)
+        .spawn()
+        .expect("Failed to launch Proton");
+    let ecode = child.wait().unwrap();
+    if !ecode.success() {
+        eprintln!("Proton exited with error")
     }
     println!("______________________\n");
     println!("Proton exited");
@@ -53,27 +35,19 @@ fn execute_proton(p: Proton) {
 fn custom_mode(args: Vec<String>) -> Proton {
     println!("custom mode enabled");
     let mut _path: String = String::new();
-    let p: Proton;
 
     _path = args[2].to_string();
     _path.push_str("/proton");
 
-    if args.len() == 5 {
-        p = Proton {
-            program: args[3].to_string(),
-            path: _path,
-            pass: args[4].to_string(),
-            extra: true,
-        };
-    } else {
-        p = Proton {
-            program: args[3].to_string(),
-            path: _path,
-            pass: String::new(),
-            extra: false,
-        };
+    let len = args.len();
+    let mut pr_ar = vec![std::string::String::new(); len-2];
+    pr_ar[0] = std::string::String::from("run");
+    pr_ar[1] = args[3].to_string();
+    for i in 4..args.len() {
+        pr_ar[i-2] = args[i].to_string();
     }
-    p
+
+    Proton {program: args[3].to_string(), path: _path, arguments: pr_ar,}
 }
 
 fn normal_mode(args: Vec<String>) -> Option<Proton> {
@@ -81,7 +55,6 @@ fn normal_mode(args: Vec<String>) -> Option<Proton> {
     let program;
     let mut _path: String = String::new();
     let common: String;
-    let pr: Proton;
 
     match env::var("PC_COMMON") {
         Ok(val) => common = val,
@@ -99,96 +72,78 @@ fn normal_mode(args: Vec<String>) -> Option<Proton> {
     _path.push_str("/proton");
     println!("Proton:       {}", version);
 
-    if args.len() == 4 {
-        pr = Proton {
-            program: program,
-            path: _path,
-            pass: args[3].to_string(),
-            extra: true,
-        };
-    } else {
-        pr = Proton {
+    let len = args.len();
+    let mut pr_ar = vec![std::string::String::new(); len-1];
+    pr_ar[0] = std::string::String::from("run");
+    pr_ar[1] = program.to_string();
+    for i in 3..args.len() {
+        pr_ar[i-1] = args[i].to_string();
+    }
+
+    Some (Proton {
         program: program,
         path: _path,
-        pass: String::new(),
-        extra: false,
-        };
-    }
-    Some(pr)
+        arguments: pr_ar,})
 }
+*/
 
 fn proton(args: Vec<String>) {
-    let p: Proton;
-
-    match if_arg(args[1].to_string()) {
-        None => return,
-        _ => (),
-    }
+    let proton: proton::Proton;
+    let custom: bool;
 
     match args[1].as_str() {
-        "--help" => {
-            help();
-            return;
-        }
-        "--version" => {
-            pc_version();
-            return;
-        }
-        "--setup" => {
-            setup();
-            return;
-        }
-        "-c" =>  p = custom_mode(args),
-        "--custom" => p = custom_mode(args),
+        "--custom" => custom = true,
+        "-c" => custom = true,
         _ => {
-            match normal_mode(args) {
-                None => return,
-                Some(_struct) => p = _struct,
-            }
-        }
+            if if_arg(args[1].to_string()) == None {return}
+            custom = false}
     }
 
-    println!("program:      {}\n", p.program);
-    debug_assert!(std::path::Path::new(&p.program).exists(),
-    "invalid program or directory");
-    debug_assert!(std::path::Path::new(&p.path).exists(),
-    "invalid version or directory");
-    if std::path::Path::new(&p.program).exists() == false {
-        println!("Program executable {} does not exist", p.program);
-        return;
-    }
-    if std::path::Path::new(&p.path).exists() == false {
-        println!("Invalid Proton version or path");
-        return;
-    }
-    execute_proton(p);
-}
+    
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    match args.len() {
-        1 => missing_args(),
-        2 => {
-            match args[1].as_str() {
-                "--help" => help(),
-                "--version" => pc_version(),
-                "--setup" => setup(),
-                "-c" => missing_args(),
-                _ => {
-                    println!("proton-call: invalid argument: '{}'", args[1]);
-                    println!("Try 'proton-call --help'");
+    match custom {
+        true => {
+            match proton::Proton::custom_mode(&args) {
+                Ok(s) => proton = s,
+                Err(e) => {
+                    eprintln!("proton-call: {}", e);
+                    return;
                 }
             }
         }
-        3 => proton(args),
-        4 => proton(args),
-        5 => proton(args),
-        _ => {
-            println!("proton-call: too many arguments");
-            println!("Try 'proton-call --help");
+        false => {
+            match proton::Proton::normal_mode(&args) {
+                Ok(s) => proton = s,
+                Err(e) => {
+                    eprintln!("proton-call: {}", e);
+                    return;
+                }
+            }
         }
     }
+
+    match proton.execute() {
+        Ok(_) => (),
+        Err(e) => {
+            println!("proton-call: {}", e);
+        }
+    }
+}
+
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let len = args.len();
+
+    if len == 1 {missing_args()}
+
+    match args[1].as_str() {
+        "--help" => {help(); return}
+        "--version" => {pc_version(); return}
+        "--setup" => {setup(); return}
+        _ => (),
+    }
+
+    proton(args);
 }
 
 // messaging
