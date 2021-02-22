@@ -134,7 +134,7 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
     let len = args.len();
 
-    if len == 1 {missing_args()}
+    if len == 1 {missing_args(); return}
 
     match args[1].as_str() {
         "--help" => {help(); return}
@@ -158,7 +158,7 @@ fn help() {
 }
 
 fn pc_version() {
-    println!("  proton-caller 2.0.2 Copyright (C) 2021  Avery Murray");
+    println!("  proton-caller 2.1.0 Copyright (C) 2021  Avery Murray");
     println!("This program comes with ABSOLUTELY NO WARRANTY.");
     println!("This is free software, and you are welcome to redistribute it");
     println!("under certain conditions.")
@@ -173,7 +173,7 @@ fn setup() {
     match env::var("STEAM_COMPAT_DATA_PATH") {
         Ok(val) => println!("STEAM_COMPAT_DATA_PATH =   {}", val),
         Err(_e) => {
-            println!("'export STEAM_COMPAT_DATA_PATH=<path to common'");
+            println!("'export STEAM_COMPAT_DATA_PATH=<path to common>'");
         }
     }
     match env::var("PC_COMMON") {
