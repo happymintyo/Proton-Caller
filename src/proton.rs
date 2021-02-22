@@ -43,7 +43,8 @@ impl Proton {
                 program,
                 version,
                 proton: path,
-                arguments: a,})
+                arguments: a,
+        })
     }
 
     pub fn custom_mode(args: &[String]) -> Result<Proton, &str> {

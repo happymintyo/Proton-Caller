@@ -15,78 +15,6 @@ fn if_arg(the_arg: String) -> Option<()> {
     Some(())
 }
 
-/*/
-fn execute_proton(p: Proton) {
-    println!("{:?}", p.arguments);
-    println!("________Proton________");
-
-    let mut child = Command::new(p.path)
-        .args(p.arguments)
-        .spawn()
-        .expect("Failed to launch Proton");
-    let ecode = child.wait().unwrap();
-    if !ecode.success() {
-        eprintln!("Proton exited with error")
-    }
-    println!("______________________\n");
-    println!("Proton exited");
-}
-
-fn custom_mode(args: Vec<String>) -> Proton {
-    println!("custom mode enabled");
-    let mut _path: String = String::new();
-
-    _path = args[2].to_string();
-    _path.push_str("/proton");
-
-    let len = args.len();
-    let mut pr_ar = vec![std::string::String::new(); len-2];
-    pr_ar[0] = std::string::String::from("run");
-    pr_ar[1] = args[3].to_string();
-    for i in 4..args.len() {
-        pr_ar[i-2] = args[i].to_string();
-    }
-
-    Proton {program: args[3].to_string(), path: _path, arguments: pr_ar,}
-}
-
-fn normal_mode(args: Vec<String>) -> Option<Proton> {
-    let version: String;
-    let program;
-    let mut _path: String = String::new();
-    let common: String;
-
-    match env::var("PC_COMMON") {
-        Ok(val) => common = val,
-        Err(_e) => {
-            setup();
-            return None;
-        }
-    }
-
-    version = args[1].to_string();
-    program = args[2].to_string();
-    _path = common;
-    _path.push_str("/Proton ");
-    _path.push_str(version.as_str());
-    _path.push_str("/proton");
-    println!("Proton:       {}", version);
-
-    let len = args.len();
-    let mut pr_ar = vec![std::string::String::new(); len-1];
-    pr_ar[0] = std::string::String::from("run");
-    pr_ar[1] = program.to_string();
-    for i in 3..args.len() {
-        pr_ar[i-1] = args[i].to_string();
-    }
-
-    Some (Proton {
-        program: program,
-        path: _path,
-        arguments: pr_ar,})
-}
-*/
-
 fn proton(args: Vec<String>) {
     let proton: proton::Proton;
     let custom: bool;
@@ -99,25 +27,20 @@ fn proton(args: Vec<String>) {
             custom = false}
     }
 
-    
-
-    match custom {
-        true => {
-            match proton::Proton::custom_mode(&args) {
-                Ok(s) => proton = s,
-                Err(e) => {
-                    eprintln!("proton-call: {}", e);
-                    return;
-                }
+    if custom {
+        match proton::Proton::custom_mode(&args) {
+            Ok(s) => proton = s,
+            Err(e) => {
+                eprintln!("proton-call: {}", e);
+                return;
             }
         }
-        false => {
-            match proton::Proton::normal_mode(&args) {
-                Ok(s) => proton = s,
-                Err(e) => {
-                    eprintln!("proton-call: {}", e);
-                    return;
-                }
+    } else {
+        match proton::Proton::normal_mode(&args) {
+            Ok(s) => proton = s,
+            Err(e) => {
+                eprintln!("proton-call: {}", e);
+                return;
             }
         }
     }
