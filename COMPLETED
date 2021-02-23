@@ -6,7 +6,7 @@
     the drive.
 
 
-1.  Pass arguments to executable
+2.  Pass arguments to executable
         A. Pass arguments to Windows executable
         B. Dynamically change the amount of arguments passed to allow this 
         feature to be added.
@@ -16,3 +16,13 @@
     and game launchers DO NOT run without spcial arguments. Some may want to
     use this to also force games to run in different graphics APIs 
     (OpenGL, Vulkan).
+
+
+2.  config file for paths and default
+
+    A. include and use library to parse config files
+    B. Have paths to steam's common
+    C. Have path to a default version
+    D. choose default version if none listed
+
+    Remove the need for confusing and inconsistant environment variables

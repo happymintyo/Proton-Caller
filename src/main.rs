@@ -1,4 +1,3 @@
-use std::env;
 mod proton;
 
 // logic
@@ -55,9 +54,8 @@ fn proton(args: Vec<String>) {
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let len = args.len();
 
-    if len == 1 {missing_args(); return}
+    if args.len() == 1 {missing_args(); return}
 
     match args[1].as_str() {
         "--help" => {help(); return}
@@ -81,7 +79,7 @@ fn help() {
 }
 
 fn pc_version() {
-    println!("  proton-caller 2.1.0 Copyright (C) 2021  Avery Murray");
+    println!("  proton-caller 2.2.0 Copyright (C) 2021  Avery Murray");
     println!("This program comes with ABSOLUTELY NO WARRANTY.");
     println!("This is free software, and you are welcome to redistribute it");
     println!("under certain conditions.")
@@ -93,16 +91,11 @@ fn missing_args() {
 }
 
 fn setup() {
-    match env::var("STEAM_COMPAT_DATA_PATH") {
-        Ok(val) => println!("STEAM_COMPAT_DATA_PATH =   {}", val),
-        Err(_e) => {
-            println!("'export STEAM_COMPAT_DATA_PATH=<path to common>'");
-        }
-    }
-    match env::var("PC_COMMON") {
-        Ok(val) => println!("PC_COMMON  =   {}", val),
-        Err(_e) => {
-            println!("'export PC_COMMON=$HOME/proton'");
-        }
-    }
+    println!("Configuration of proton-call requires a config file located at");
+    println!("`~/.config/proton.conf` which is formatted like:\n");
+    println!("  data = \"\"");
+    println!("  common = \"\"");
+    println!("`data` is used to give proton a directory used for compatibility data.\n");
+    println!("`common` is a directory pointing to steam's common directory, where Proton");
+    println!("and games are installed");
 }

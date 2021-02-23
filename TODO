@@ -21,16 +21,3 @@ Keep each list item in an organized layout:
 Any feature requests that do not follow this layout will not be reviewed.
 Completed actions will be added to a separete file (COMPLETED) and explained
 in the release (and commit) they were added in.
-
-
-1.  config file for paths and default
-
-    A. include and use library to parse config files
-    B. Have paths to steam's common
-    C. Have path to a default version
-    D. choose default version if none listed
-
-    Remove the need for confusing and inconsistant environment variables
-
-2.  As said above, default proton version
-

@@ -1,6 +1,6 @@
 [package]
 name = "proton-call"
-version = "2.1.0"
+version = "2.2.0"
 authors = ["cavery <averylapine@gmail.com>"]
 edition = "2018"
 
@@ -13,3 +13,6 @@ codegen-units = 1
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+toml = "0.5.8"
+serde = "1.0.123"
+serde_derive = "1.0.123"

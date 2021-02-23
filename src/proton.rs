@@ -3,31 +3,42 @@ pub(crate) struct Proton {
     version: String,
     proton: String,
     arguments: Vec<String>,
+    conf: Config,
+}
+
+fn push_proton(string: &mut String, version: &str) {
+    string.push_str("/Proton ");
+    string.push_str(version);
+    string.push_str("/proton");
+}
+
+fn check(file: &[&String]) -> bool {
+    let len = file.len();
+    for i in 0..len {
+        if !std::path::Path::new(file[i]).exists() {
+            return false;
+        }
+    }
+    true
 }
 
 impl Proton {
     pub fn normal_mode(args: &[String]) -> Result<Proton, &str> {
+        let config: Config;
         let version: String = args[1].to_string();
         let program: String = args[2].to_string();
         let mut path: String;
-        let common: String;
 
-        match std::env::var("PC_COMMON") {
-            Ok(val) => common = val,
-            Err(_) => return Err("error: 'PC_COMMON' does not exist"),
+        match Config::new() {
+            Ok(val) => config = val,
+            Err(e) => return Err(e),
         }
 
-        path = common;
-        path.push_str("/Proton ");
-        path.push_str(version.as_str());
-        path.push_str("/proton");
+        path = config.common.to_string();
+        push_proton(&mut path, &version);
 
-        if !std::path::Path::new(&path).exists() {
-            return Err("error: invalid path");
-        }
-
-        if !std::path::Path::new(&args[2]).exists() {
-            return Err("error: invalid program");
+        if let false = check(&[&path, &args[2]]) {
+            return Err("error: invalid Proton or executable");
         }
 
         let len: usize = args.len();
@@ -44,20 +55,18 @@ impl Proton {
                 version,
                 proton: path,
                 arguments: a,
+                conf: config,
         })
     }
 
     pub fn custom_mode(args: &[String]) -> Result<Proton, &str> {
         let len: usize = args.len();
+        let config: Config;
         let mut path: String = args[2].to_string();
         path.push_str("/proton");
 
-        if !std::path::Path::new(&path).exists() {
-            return Err("error: invalid path");
-        }
-
-        if !std::path::Path::new(&args[2]).exists() {
-            return Err("error: invalid program");
+        if let false = check(&[&path, &args[3]]) {
+            return Err("error: invalid Proton or executable");
         }
 
         let mut a: Vec<String> = vec![std::string::String::new(); len-2];
@@ -68,11 +77,17 @@ impl Proton {
             a[i-2] = args[i].to_string();
         }
 
+        match Config::new() {
+            Ok(val) => config = val,
+            Err(e) => return Err(e),
+        }
+
         Ok(Proton {
             program: args[3].to_string(),
             version: std::string::String::from("custom"),
             proton: path,
             arguments: a,
+            conf: config,
         })
     }
 
@@ -84,6 +99,7 @@ impl Proton {
 
         let child= std::process::Command::new(self.proton)
             .args(self.arguments)
+            .env("STEAM_COMPAT_DATA_PATH", self.conf.data)
             .spawn();
         if child.is_err() {
             return Err("failed to launch Proton")
@@ -98,5 +114,43 @@ impl Proton {
         }
         println!("______________________\n");
         Ok(())
+    }
+}
+
+#[derive(serde_derive::Deserialize, Debug)]
+pub(crate) struct Config {
+    data: String,
+    common: String,
+}
+
+impl Config {
+    pub fn new() -> Result<Config, &'static str> {
+        let config: Config;
+        let mut file: String;
+
+        match std::env::var("HOME") {
+            Ok(val) => file = val,
+            Err(_) => panic!("HOME"),
+        }
+
+        file.push_str("/.config/proton.conf");
+
+        if !std::path::Path::new(&file).exists() {
+            return Err("error: proton.toml does not exist");
+        }
+
+        let strr: String;
+
+        match std::fs::read_to_string(file) {
+            Ok(string) => strr = string,
+            Err(_) => return Err("error: failed to read config"),
+        }
+
+        match toml::from_str(strr.as_str()) {
+            Ok(o) => config = o,
+            Err(_) => return Err("error: could not read config"),
+        }
+
+        Ok(config)
     }
 }
