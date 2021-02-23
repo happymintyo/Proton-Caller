@@ -16,7 +16,8 @@ fn push_proton(string: &mut String, version: &str) {
 impl Proton {
     pub fn init(args: &[String], custom: bool) -> Result<Proton, &str> {
         if custom {return Proton::init_custom(args);}
-
+        let args_len: usize = args.len();
+        if args_len < 3 {return Err("error: not enough arguments")}
         let config: Config;
         let version: String = args[1].to_string();
         let program: String = args[2].to_string();
@@ -34,7 +35,7 @@ impl Proton {
             return Err("error: invalid Proton or executable");
         }
 
-        let a: Vec<String> = Proton::arguments(3, args.len(), &args, &program);
+        let a: Vec<String> = Proton::arguments(3, args_len, &args, &program);
 
         Ok(Proton {
                 program,
@@ -68,6 +69,8 @@ impl Proton {
 
     fn init_custom(args: &[String]) -> Result<Proton, &str> {
         let config: Config;
+        let args_len: usize = args.len();
+        if args_len < 4 {return Err("error: not enough arguments");}
         let mut path: String = args[2].to_string();
         path.push_str("/proton");
 
@@ -75,7 +78,7 @@ impl Proton {
             return Err("error: invalid Proton or executable");
         }
 
-        let a: Vec<String> = Proton::arguments(4, args.len(), &args, &args[3].to_string());
+        let a: Vec<String> = Proton::arguments(4, args_len, &args, &args[3]);
 
         match Config::new() {
             Ok(val) => config = val,
@@ -92,7 +95,6 @@ impl Proton {
     }
 
     pub fn execute(self) -> Result<(), &'static str> {
-        println!("{:?}", self.arguments);
         println!("Proton:   {}", self.version);
         println!("Program:  {}\n", self.program.split('/').last().unwrap());
         let ecode: std::process::ExitStatus;
