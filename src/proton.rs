@@ -23,7 +23,10 @@ fn check(file: &[&String]) -> bool {
 }
 
 impl Proton {
-    pub fn normal_mode(args: &[String]) -> Result<Proton, &str> {
+    pub fn init(args: &[String], custom: bool) -> Result<Proton, &str> {
+        if custom {
+            return Proton::init_custom(args);
+        }
         let config: Config;
         let version: String = args[1].to_string();
         let program: String = args[2].to_string();
@@ -59,7 +62,7 @@ impl Proton {
         })
     }
 
-    pub fn custom_mode(args: &[String]) -> Result<Proton, &str> {
+    fn init_custom(args: &[String]) -> Result<Proton, &str> {
         let len: usize = args.len();
         let config: Config;
         let mut path: String = args[2].to_string();
@@ -117,7 +120,7 @@ impl Proton {
     }
 }
 
-#[derive(serde_derive::Deserialize, Debug)]
+#[derive(serde_derive::Deserialize, serde_derive::Serialize, Debug)]
 pub(crate) struct Config {
     data: String,
     common: String,
@@ -128,15 +131,12 @@ impl Config {
         let config: Config;
         let mut file: String;
 
-        match std::env::var("HOME") {
-            Ok(val) => file = val,
-            Err(_) => panic!("HOME"),
-        }
+        file = std::env::var("HOME").unwrap();
 
         file.push_str("/.config/proton.conf");
 
         if !std::path::Path::new(&file).exists() {
-            return Err("error: proton.toml does not exist");
+            return Err("error: proton.conf does not exist");
         }
 
         let strr: String;
@@ -148,7 +148,7 @@ impl Config {
 
         match toml::from_str(strr.as_str()) {
             Ok(o) => config = o,
-            Err(_) => return Err("error: could not read config"),
+            Err(_) => return Err("error: failed to read config"),
         }
 
         Ok(config)

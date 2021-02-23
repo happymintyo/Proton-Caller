@@ -26,28 +26,18 @@ fn proton(args: Vec<String>) {
             custom = false}
     }
 
-    if custom {
-        match proton::Proton::custom_mode(&args) {
-            Ok(s) => proton = s,
-            Err(e) => {
-                eprintln!("proton-call: {}", e);
-                return;
-            }
-        }
-    } else {
-        match proton::Proton::normal_mode(&args) {
-            Ok(s) => proton = s,
-            Err(e) => {
-                eprintln!("proton-call: {}", e);
-                return;
-            }
+    match proton::Proton::init(&args, custom) {
+        Ok(s) => proton = s,
+        Err(e) => {
+            eprintln!("proton-call: {}", e);
+            return;
         }
     }
 
     match proton.execute() {
         Ok(_) => (),
         Err(e) => {
-            println!("proton-call: {}", e);
+            eprintln!("proton-call: {}", e);
         }
     }
 }
