@@ -1,3 +1,4 @@
+#![warn(clippy::all, clippy::pedantic)]
 pub(crate) struct Proton {
     program: String,
     version: String,
@@ -12,21 +13,10 @@ fn push_proton(string: &mut String, version: &str) {
     string.push_str("/proton");
 }
 
-fn check(file: &[&String]) -> bool {
-    let len = file.len();
-    for i in 0..len {
-        if !std::path::Path::new(file[i]).exists() {
-            return false;
-        }
-    }
-    true
-}
-
 impl Proton {
     pub fn init(args: &[String], custom: bool) -> Result<Proton, &str> {
-        if custom {
-            return Proton::init_custom(args);
-        }
+        if custom {return Proton::init_custom(args);}
+
         let config: Config;
         let version: String = args[1].to_string();
         let program: String = args[2].to_string();
@@ -40,18 +30,11 @@ impl Proton {
         path = config.common.to_string();
         push_proton(&mut path, &version);
 
-        if let false = check(&[&path, &args[2]]) {
+        if !Proton::check(&[&path, &args[2]]) {
             return Err("error: invalid Proton or executable");
         }
 
-        let len: usize = args.len();
-        let mut a: Vec<String> = vec![std::string::String::new(); len-1];
-        a[0] = std::string::String::from("run");
-        a[1] = program.to_string();
-
-        for i in 3..len {
-            a[i-1] = args[i].to_string();
-        }
+        let a: Vec<String> = Proton::arguments(3, args.len(), &args, &program);
 
         Ok(Proton {
                 program,
@@ -62,23 +45,37 @@ impl Proton {
         })
     }
 
+    fn arguments(start: usize, end: usize, args: &[String], program: &str) -> Vec<String> {
+        let mut vector: Vec<String> = vec![std::string::String::new(); end-(start-2)];
+        vector[0] = std::string::String::from("run");
+        vector[1] = program.to_string();
+
+        for i in start..end {
+            vector[i-(start-2)] = args[i].to_string();
+        }
+
+        vector
+    }
+
+    fn check(file: &[&String]) -> bool {
+        for i in file {
+            if !std::path::Path::new(i).exists() {
+                return false;
+            }
+        }
+        true
+    }
+
     fn init_custom(args: &[String]) -> Result<Proton, &str> {
-        let len: usize = args.len();
         let config: Config;
         let mut path: String = args[2].to_string();
         path.push_str("/proton");
 
-        if let false = check(&[&path, &args[3]]) {
+        if let false = Proton::check(&[&path, &args[3]]) {
             return Err("error: invalid Proton or executable");
         }
 
-        let mut a: Vec<String> = vec![std::string::String::new(); len-2];
-        a[0] = std::string::String::from("run");
-        a[1] = args[3].to_string();
-
-        for i in 4..len {
-            a[i-2] = args[i].to_string();
-        }
+        let a: Vec<String> = Proton::arguments(4, args.len(), &args, &args[3].to_string());
 
         match Config::new() {
             Ok(val) => config = val,
@@ -95,6 +92,7 @@ impl Proton {
     }
 
     pub fn execute(self) -> Result<(), &'static str> {
+        println!("{:?}", self.arguments);
         println!("Proton:   {}", self.version);
         println!("Program:  {}\n", self.program.split('/').last().unwrap());
         let ecode: std::process::ExitStatus;

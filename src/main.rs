@@ -1,29 +1,22 @@
+#![warn(clippy::all, clippy::pedantic)]
 mod proton;
 
-// logic
-fn if_arg(the_arg: String) -> Option<()> {
-    let arg: Vec<char> = the_arg.chars().collect();
-    if arg[0] == '-' {
-        if arg[1] == 'c' {
-            return Some(());
-        }
-        println!("proton-call: invalid argument: '{}'", the_arg);
-        println!("Try 'proton-call --help");
-        return None;
-    }
-    Some(())
-}
-
-fn proton(args: Vec<String>) {
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
     let proton: proton::Proton;
     let custom: bool;
 
+    if args.len() == 1 {missing_args(); return}
+
     match args[1].as_str() {
-        "--custom" => custom = true,
-        "-c" => custom = true,
+        "--help" => {help(); return}
+        "--version" => {pc_version(); return}
+        "--setup" => {setup(); return}
+        "--custom" | "-c" => custom = true,
         _ => {
-            if if_arg(args[1].to_string()) == None {return}
-            custom = false}
+            if if_arg(&args[1]) {return}
+            custom = false
+        }
     }
 
     match proton::Proton::init(&args, custom) {
@@ -34,27 +27,19 @@ fn proton(args: Vec<String>) {
         }
     }
 
-    match proton.execute() {
-        Ok(_) => (),
-        Err(e) => {
-            eprintln!("proton-call: {}", e);
-        }
+    if let Err(e) = proton.execute() {
+        eprintln!("proton-call: {}", e);
     }
 }
 
-fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
-    if args.len() == 1 {missing_args(); return}
-
-    match args[1].as_str() {
-        "--help" => {help(); return}
-        "--version" => {pc_version(); return}
-        "--setup" => {setup(); return}
-        _ => (),
+fn if_arg(the_arg: &str) -> bool {
+    let arg: Vec<char> = the_arg.chars().collect();
+    if arg[0] == '-' {
+        eprintln!("proton-call: invalid argument: '{}'", the_arg);
+        eprintln!("Try 'proton-call --help");
+        return true;
     }
-
-    proton(args);
+    false
 }
 
 // messaging
@@ -72,7 +57,7 @@ fn pc_version() {
     println!("  proton-caller 2.2.0 Copyright (C) 2021  Avery Murray");
     println!("This program comes with ABSOLUTELY NO WARRANTY.");
     println!("This is free software, and you are welcome to redistribute it");
-    println!("under certain conditions.")
+    println!("under certain conditions.\n")
 }
 
 fn missing_args() {
