@@ -48,7 +48,7 @@ fn help() {
     println!("Execute PROGRAM with Proton VERSION");
     println!("If specified, run proton PATH\n");
     println!("  -c, --custom PATH   use proton from PATH");
-    println!("  -c, --help              display this help message");
+    println!("  -h, --help              display this help message");
     println!("  -v, --version           display version information");
     println!("  -s --setup             display setup information");
 }
