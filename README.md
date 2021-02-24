@@ -11,6 +11,7 @@ https://aur.archlinux.org/packages/proton-caller/
 
 ## Problem Reporting:
 Please create an issue on the [Github](https://github.com/caverym/Proton-Caller) page which lists: system, kernel version, game, shell, and if it is or isn't a Steam game – provide how you had installed it and where it is installed. Additionally provide screenshots of the shell. Try many methods to get it to work and describe what you did in your issue.
+Warning: if you're not using a release build, **use a release build**
 
 
 ## Usage:
