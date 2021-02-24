@@ -107,20 +107,25 @@ impl Proton {
         println!("Proton:   {}", self.version);
         println!("Program:  {}\n", self.program.split('/').last().unwrap());
         let ecode: std::process::ExitStatus;
+        let mut child: std::process::Child;
         println!("________Proton________");
 
-        let child = std::process::Command::new(self.proton)
+        if let Ok(val) = std::process::Command::new(self.proton)
             .args(self.arguments)
             .env("STEAM_COMPAT_DATA_PATH", self.conf.data)
-            .spawn();
-        if child.is_err() {
+            .spawn()
+        {
+            child = val
+        } else {
             return Err("failed to launch Proton");
         }
-        let mut out = child.unwrap();
-        match out.wait() {
-            Ok(val) => ecode = val,
-            Err(_) => return Err("error: failed to wait for Proton"),
+
+        if let Ok(val) = child.wait() {
+            ecode = val
+        } else {
+            return Err("error: failed to wait for Proton");
         }
+
         if !ecode.success() {
             return Err("error: Proton exited with an error");
         }
