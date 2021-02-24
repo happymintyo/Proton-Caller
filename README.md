@@ -29,8 +29,17 @@ proton-call 5.13 SpaceEngine.exe
 ```
 
 ```
-proton-call -c "/home/avery/.steam/steam/steamapps/common/Proton 5.13" SpaceEngine.exe
+proton-call -c ./Proton\ 5.13/ SpaceEngine.exe
 ```
+
+## Config:
+Configuration files are extremely simple: `~/.config/proton.conf`
+   Set your own path to `data` (any empty directory) and `common` (steam's common dirrectory)
+```
+data = "/home/avery/Documents/Proton/env/"
+common = "/home/avery/.steam/steam/steamapps/common/"
+```
+
 ## Install:
 
 To install `proton-call`
@@ -45,17 +54,18 @@ git clone https://aur.archlinux.org/proton-caller.git
 cd proton-caller
 makepkg -si
 ```
-or:
+or: (Requires Rust)
 ```
 git clone https://github.com/caverym/Proton-Caller.git
 cd Proton-Caller
-sudo cargo install --path .
+cargo b --release --lock
+sudo install -Dm 755 target/release/proton-call /usr/bin/proton-call 
 ```
 
 ### Space Engine example:
    Make a .desktop launcher. [example file](Space%20Engine.desktop)
    
-   ```
+```
 [Desktop Entry]
 Type=Application
 Name=Space Engine
@@ -64,4 +74,4 @@ Exec=proton-call 5.13 SpaceEngine.exe
 Path=/home/avery/Documents/games/SpaceEngine/system
 Terminal=false
 StartupNotify=false
-   ```
+```
