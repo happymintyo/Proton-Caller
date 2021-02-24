@@ -5,6 +5,8 @@ Run any Windows program through [Valve's Proton](https://github.com/ValveSoftwar
 
 Please create an issue if you want added features or have an issue.
 
+\> [FAQ](https://github.com/caverym/Proton-Caller/wiki/FAQ)
+
 https://aur.archlinux.org/packages/proton-caller/
 
 ## Problem Reporting:
