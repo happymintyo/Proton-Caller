@@ -83,7 +83,7 @@ impl Proton {
         let mut path: String = args[2].to_string();
         path.push_str("/proton");
 
-        if let false = Proton::check(&[&path, &args[3]]) {
+        if !Proton::check(&[&path, &args[3]]) {
             return Err("error: invalid Proton or executable");
         }
 
@@ -110,20 +110,17 @@ impl Proton {
         let mut child: std::process::Child;
         println!("________Proton________");
 
-        if let Ok(val) = std::process::Command::new(self.proton)
+        match std::process::Command::new(self.proton)
             .args(self.arguments)
             .env("STEAM_COMPAT_DATA_PATH", self.conf.data)
-            .spawn()
-        {
-            child = val
-        } else {
-            return Err("failed to launch Proton");
+            .spawn() {
+                Ok(val) => child = val,
+                Err(_) => return Err("failed to launch Proton"),
         }
 
-        if let Ok(val) = child.wait() {
-            ecode = val
-        } else {
-            return Err("error: failed to wait for Proton");
+        match child.wait() {
+            Ok(val) => ecode = val,
+            Err(_) => return Err("failed to wait for Proton"),
         }
 
         if !ecode.success() {
