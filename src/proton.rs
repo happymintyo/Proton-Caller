@@ -15,9 +15,16 @@ fn push_proton(string: &mut String, version: &str) {
 
 impl Proton {
     pub fn init(args: &[String], custom: bool) -> Result<Proton, &str> {
-        if custom {return Proton::init_custom(args);}
+        if custom {
+            return Proton::init_custom(args);
+        }
+        if if_arg(&args[1]) {
+            return Err("error: invalid argument");
+        }
         let args_len: usize = args.len();
-        if args_len < 3 {return Err("error: not enough arguments")}
+        if args_len < 3 {
+            return Err("error: not enough arguments");
+        }
         let config: Config;
         let version: String = args[1].to_string();
         let program: String = args[2].to_string();
@@ -38,21 +45,21 @@ impl Proton {
         let a: Vec<String> = Proton::arguments(3, args_len, &args, &program);
 
         Ok(Proton {
-                program,
-                version,
-                proton: path,
-                arguments: a,
-                conf: config,
+            program,
+            version,
+            proton: path,
+            arguments: a,
+            conf: config,
         })
     }
 
     fn arguments(start: usize, end: usize, args: &[String], program: &str) -> Vec<String> {
-        let mut vector: Vec<String> = vec![std::string::String::new(); end-(start-2)];
+        let mut vector: Vec<String> = vec![std::string::String::new(); end - (start - 2)];
         vector[0] = std::string::String::from("run");
         vector[1] = program.to_string();
 
         for i in start..end {
-            vector[i-(start-2)] = args[i].to_string();
+            vector[i - (start - 2)] = args[i].to_string();
         }
 
         vector
@@ -70,7 +77,9 @@ impl Proton {
     fn init_custom(args: &[String]) -> Result<Proton, &str> {
         let config: Config;
         let args_len: usize = args.len();
-        if args_len < 4 {return Err("error: not enough arguments");}
+        if args_len < 4 {
+            return Err("error: not enough arguments");
+        }
         let mut path: String = args[2].to_string();
         path.push_str("/proton");
 
@@ -100,12 +109,12 @@ impl Proton {
         let ecode: std::process::ExitStatus;
         println!("________Proton________");
 
-        let child= std::process::Command::new(self.proton)
+        let child = std::process::Command::new(self.proton)
             .args(self.arguments)
             .env("STEAM_COMPAT_DATA_PATH", self.conf.data)
             .spawn();
         if child.is_err() {
-            return Err("failed to launch Proton")
+            return Err("failed to launch Proton");
         }
         let mut out = child.unwrap();
         match out.wait() {
@@ -113,11 +122,19 @@ impl Proton {
             Err(_) => return Err("error: failed to wait for Proton"),
         }
         if !ecode.success() {
-            return Err("error: Proton exited with an error")
+            return Err("error: Proton exited with an error");
         }
         println!("______________________\n");
         Ok(())
     }
+}
+
+fn if_arg(the_arg: &str) -> bool {
+    let arg: Vec<char> = the_arg.chars().collect();
+    if arg[0] == '-' {
+        return true;
+    }
+    false
 }
 
 #[derive(serde_derive::Deserialize, serde_derive::Serialize, Debug)]

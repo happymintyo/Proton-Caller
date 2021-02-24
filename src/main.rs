@@ -6,17 +6,26 @@ fn main() {
     let proton: proton::Proton;
     let custom: bool;
 
-    if args.len() == 1 {missing_args(); return}
+    if args.len() == 1 {
+        missing_args();
+        return;
+    }
 
     match args[1].as_str() {
-        "--help" => {help(); return}
-        "--version" => {pc_version(); return}
-        "--setup" => {setup(); return}
-        "--custom" | "-c" => custom = true,
-        _ => {
-            if if_arg(&args[1]) {return}
-            custom = false
+        "--help" | "-h" => {
+            help();
+            return;
         }
+        "--version" | "-v" => {
+            pc_version();
+            return;
+        }
+        "--setup" | "-s" => {
+            setup();
+            return;
+        }
+        "--custom" | "-c" => custom = true,
+        _ => custom = false,
     }
 
     match proton::Proton::init(&args, custom) {
@@ -32,16 +41,6 @@ fn main() {
     }
 }
 
-fn if_arg(the_arg: &str) -> bool {
-    let arg: Vec<char> = the_arg.chars().collect();
-    if arg[0] == '-' {
-        eprintln!("proton-call: invalid argument: '{}'", the_arg);
-        eprintln!("Try 'proton-call --help");
-        return true;
-    }
-    false
-}
-
 // messaging
 fn help() {
     println!("Usage: proton-call VERSION PROGRAM");
@@ -49,8 +48,9 @@ fn help() {
     println!("Execute PROGRAM with Proton VERSION");
     println!("If specified, run proton PATH\n");
     println!("  -c, --custom PATH   use proton from PATH");
-    println!("  --help              display this help message");
-    println!("  --version           display version information\n");
+    println!("  -c, --help              display this help message");
+    println!("  -v, --version           display version information");
+    println!("  -s --setup             display setup information");
 }
 
 fn pc_version() {
@@ -69,7 +69,7 @@ fn setup() {
     println!("Configuration of proton-call requires a config file located at");
     println!("`~/.config/proton.conf` which is formatted like:\n");
     println!("  data = \"\"");
-    println!("  common = \"\"");
+    println!("  common = \"\"\n");
     println!("`data` is used to give proton a directory used for compatibility data.\n");
     println!("`common` is a directory pointing to steam's common directory, where Proton");
     println!("and games are installed");
